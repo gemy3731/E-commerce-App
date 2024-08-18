@@ -1,0 +1,69 @@
+import React from 'react'
+import freshCart from '../../assets/images/freshcart-logo.svg'
+import { NavLink } from 'react-router-dom'
+
+export default function NavBar() {
+  return (
+<nav className="bg-green-300 lg:fixed top-0 left-0 right-0">
+  <div className="container mx-auto">
+  <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    
+    <div className=" w-full flex flex-wrap flex-col lg:flex-row items-center lg:w-auto" id="navbar-default">
+    
+        <img src={freshCart} className="h-8 me-3" alt="freshCart" />
+    
+      <ul className="font-medium flex flex-col p-4 lg:p-0 mt-4 text-center  rounded-lg  lg:flex-row lg:space-x-8 rtl:space-x-reverse lg:mt-0  text-black">
+        <li>
+          <NavLink to="home" className="block py-2 px-3 lg:p-0  " aria-current="page">Home</NavLink>
+        </li>
+        <li>
+          <NavLink to="cart" className="block py-2 px-3 rounded lg:p-0">Cart</NavLink>
+        </li>
+        <li>
+          <NavLink to="products" className="block py-2 px-3 rounded lg:p-0">Products</NavLink>
+        </li>
+        <li>
+          <NavLink to="categories" className="block py-2 px-3 rounded lg:p-0">Categories</NavLink>
+        </li>
+        <li>
+          <NavLink to="brands" className="block py-2 px-3 rounded lg:p-0">Brands</NavLink>
+        </li>
+      </ul>
+    </div>
+    <div className=" w-full  lg:w-auto" id="navbar-default">
+      <ul className="font-medium flex flex-col text-center p-4 lg:p-0 mt-4 rounded-lg  lg:flex-row lg:space-x-8 rtl:space-x-reverse lg:mt-0  text-black">
+        <li className='space-x-4'>
+          <a href="https://www.instagram.com/" target='_blank'>
+          <i className='fa-brands fa-instagram'></i>
+          </a>
+          <a href="https://www.facebook.com/" target='_blank'>
+          <i className='fa-brands fa-facebook'></i>
+          </a>
+          <a href="https://www.tiktok.com/" target='_blank'>
+          <i className='fa-brands fa-tiktok'></i>
+          </a>
+          <a href="https://www.twitter.com/" target='_blank'>
+          <i className='fa-brands fa-twitter'></i>
+          </a>
+          <a href="https://www.linkedin.com/" target='_blank'>
+          <i className='fa-brands fa-linkedin'></i>
+          </a>
+          <a href="https://www.youtube.com/" target='_blank'>
+          <i className='fa-brands fa-youtube'></i>
+          </a>
+        </li>
+        <li>
+          <NavLink to="login" className="block py-2 px-3 lg:p-0  " aria-current="page">Login</NavLink>
+        </li>
+        <li>
+          <NavLink to="register" className="block py-2 px-3 lg:p-0  " aria-current="page">Register</NavLink>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  </div>
+</nav>
+
+  )
+}
