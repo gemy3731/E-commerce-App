@@ -14,7 +14,7 @@ import Login from './Component/Login/Login';
 import Register from './Component/Register/Register';
 const router =createBrowserRouter([
   {path:'',element:<LayOut />,children:[
-    {index:true, element:<Home/>},
+    {index:true, element:<Register/>},
     {path:'home', element:<Home/>},
     {path:'cart', element:<Cart/>},
     {path:'products', element:<Products/>},

@@ -22,11 +22,12 @@ export default function Register() {
     setIsLoading(true);
     axios.post("https://ecommerce.routemisr.com/api/v1/auth/signup",value)
     .then((res)=>{
-      navigate("/Login")
+      navigate("/login")
       setIsLoading(false);
     })
     .catch((err)=>{
       setApiError(err.response.data.message);
+      setTimeout(()=>setApiError(null),5000);
       setIsLoading(false);
     })
   }
