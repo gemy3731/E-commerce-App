@@ -21,11 +21,9 @@ export default function Login() {
     setIsLoading(true);
     axios.post("https://ecommerce.routemisr.com/api/v1/auth/signin",value)
     .then((res)=>{
-      console.log(res);
-      
       localStorage.setItem("token",res.data.token);
       userToken.setToken(res.data.token)
-      navigate("/products")
+      navigate("/home")
       setIsLoading(false);
     })
     .catch((err)=>{
