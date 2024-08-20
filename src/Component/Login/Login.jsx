@@ -1,14 +1,16 @@
 
 import axios from 'axios';
 import { useFormik } from 'formik';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
+import { UserTokenContext } from '../../Context/UserTokenContext';
 
 export default function Login() {
   const [apiError,setApiError] = useState(null)
   const [isLoading ,setIsLoading] = useState(false);
   const navigate = useNavigate()
+  const userToken = useContext(UserTokenContext)
 
   const initialValues = {
     email:"",
@@ -19,6 +21,10 @@ export default function Login() {
     setIsLoading(true);
     axios.post("https://ecommerce.routemisr.com/api/v1/auth/signin",value)
     .then((res)=>{
+      console.log(res);
+      
+      localStorage.setItem("token",res.data.token);
+      userToken.setToken(res.data.token)
       navigate("/products")
       setIsLoading(false);
     })

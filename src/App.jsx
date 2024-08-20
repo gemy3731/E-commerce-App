@@ -12,6 +12,7 @@ import Categories from './Component/Categories/Categories';
 import Brands from './Component/Brands/Brands';
 import Login from './Component/Login/Login';
 import Register from './Component/Register/Register';
+import UserTokenContextProvider from './Context/UserTokenContext'
 const router =createBrowserRouter([
   {path:'',element:<LayOut />,children:[
     {index:true, element:<Register/>},
@@ -30,7 +31,10 @@ function App() {
 
   return (
     <>
+    <UserTokenContextProvider>
       <RouterProvider router={router} />
+
+    </UserTokenContextProvider>
 
       
     </>
