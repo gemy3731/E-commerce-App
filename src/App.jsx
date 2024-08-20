@@ -15,6 +15,9 @@ import Register from './Component/Register/Register';
 import UserTokenContextProvider from './Context/UserTokenContext'
 import ProtectedRoutes from './Component/ProtectedRoutes/ProtectedRoutes'
 import ProtectedRoutesRegister from './Component/ProtectedRoutesRegister/ProtectedRoutesRegister'
+import ProductDetails from './Component/productDetails/ProductDetails'
+
+
 const router =createBrowserRouter([
   {path:'',element:<LayOut />,children:[
     {index:true, element:<ProtectedRoutesRegister><Register/></ProtectedRoutesRegister>},
@@ -25,6 +28,7 @@ const router =createBrowserRouter([
     {path:'products', element:<ProtectedRoutes><Products/></ProtectedRoutes>},
     {path:'categories', element:<ProtectedRoutes><Categories/></ProtectedRoutes>},
     {path:'brands', element:<ProtectedRoutes><Brands/></ProtectedRoutes>},
+    {path:'productdetails/:id', element:<ProtectedRoutes><ProductDetails/></ProtectedRoutes>},
     
     {path:'*', element:<NotFound/>}
   ]}
