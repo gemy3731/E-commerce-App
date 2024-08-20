@@ -13,16 +13,18 @@ import Brands from './Component/Brands/Brands';
 import Login from './Component/Login/Login';
 import Register from './Component/Register/Register';
 import UserTokenContextProvider from './Context/UserTokenContext'
+import ProtectedRoutes from './Component/ProtectedRoutes/ProtectedRoutes'
+import ProtectedRoutesRegister from './Component/ProtectedRoutesRegister/ProtectedRoutesRegister'
 const router =createBrowserRouter([
   {path:'',element:<LayOut />,children:[
-    {index:true, element:<Register/>},
-    {path:'home', element:<Home/>},
-    {path:'cart', element:<Cart/>},
-    {path:'products', element:<Products/>},
-    {path:'categories', element:<Categories/>},
-    {path:'brands', element:<Brands/>},
-    {path:'login', element:<Login/>},
-    {path:'register', element:<Register/>},
+    {index:true, element:<ProtectedRoutesRegister><Register/></ProtectedRoutesRegister>},
+    {path:'register', element:<ProtectedRoutesRegister><Register/></ProtectedRoutesRegister>},
+    {path:'login', element:<ProtectedRoutesRegister><Login/></ProtectedRoutesRegister>},
+    {path:'home', element:<ProtectedRoutes><Home/></ProtectedRoutes>},
+    {path:'cart', element:<ProtectedRoutes><Cart/></ProtectedRoutes>},
+    {path:'products', element:<ProtectedRoutes><Products/></ProtectedRoutes>},
+    {path:'categories', element:<ProtectedRoutes><Categories/></ProtectedRoutes>},
+    {path:'brands', element:<ProtectedRoutes><Brands/></ProtectedRoutes>},
     
     {path:'*', element:<NotFound/>}
   ]}
