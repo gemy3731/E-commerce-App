@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import freshCart from '../../assets/images/freshcart-logo.svg'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { UserTokenContext } from '../../Context/UserTokenContext';
 
 export default function NavBar() {
@@ -68,10 +68,10 @@ export default function NavBar() {
         </li>
         </>:<>
         <li>
-          <NavLink to="login" className="block py-2 lg:py-0 my-2 lg:my-0 px-3  rounded-lg  bg-black text-white" >Login</NavLink>
+          <Link to="login" className="block py-2 lg:py-0 my-2 lg:my-0 px-3  rounded-lg  bg-black text-white hover:text-white" >Login</Link>
         </li>
         <li>
-          <NavLink to="register" className="block py-2 lg:py-0 px-3 my-2 lg:my-0 rounded-lg  bg-black text-white" >Register</NavLink>
+          <Link to="register" className="block py-2 lg:py-0 px-3 my-2 lg:my-0 rounded-lg  bg-black text-white hover:text-white" >Register</Link>
         </li>
         </>}
         
