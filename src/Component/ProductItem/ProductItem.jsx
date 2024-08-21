@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 export default function ProductItem({product}) {
   return (
     <div  className='product rounded-lg overflow-hidden'>
-        <Link to={`/productdetails/${product.id}`}>
+        <Link to={`/productdetails/${product.id}/${product.category._id}`}>
             <img src={product.imageCover} className='w-full' alt={product.title} />
                 <div className='p-2 '>
                     <h2 className='text-[#4fa74f] '>{product.category.name}</h2>

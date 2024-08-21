@@ -2,22 +2,45 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loader from "../Loader/Loader";
+import ProductItem from "../ProductItem/ProductItem";
 
 export default function ProductDetails() {
   const [ProductDetails, setProductDetails] = useState(null);
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { id } = useParams();
+  const { id, categoryId } = useParams();
+
   useEffect(() => {
     getProductDetails();
+  }, [id]);
+  useEffect(() => {
+    getRelatedProducts();
   }, []);
+  
+  
   function getProductDetails() {
     axios
       .get(`https://ecommerce.routemisr.com/api/v1/products/${id}`)
       .then(({ data }) => {
         setProductDetails(data.data);
         setIsLoading(false);
+        if (relatedProducts.length) {
+          filterRelatedProducts(relatedProducts)
+        }
       })
       .catch((err) => console.log(err));
+  }
+  function getRelatedProducts() {
+    axios
+      .get(`https://ecommerce.routemisr.com/api/v1/products`)
+      .then(({ data }) => {
+        filterRelatedProducts(data.data)
+      })
+      .catch((err) => console.log(err));
+  }
+  function filterRelatedProducts(data) {
+    let res = data.filter((product)=>product.category._id==categoryId&&product.id!=id)
+    setRelatedProducts(res);
   }
 
   return (
@@ -53,6 +76,18 @@ export default function ProductDetails() {
             </div>
           </div>
         </div>
+      )}
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className="container mx-auto mt-16">
+          <h2 className="text-4xl mb-4 text-green-500">Related Products :</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {relatedProducts?.map((product) => {
+            return <ProductItem key={product.id} product={product} />;
+          })}
+        </div>
+      </div>
       )}
     </>
   );
