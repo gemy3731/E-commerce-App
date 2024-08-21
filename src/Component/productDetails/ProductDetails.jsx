@@ -79,7 +79,7 @@ export default function ProductDetails() {
       )}
       {isLoading ? (
         <Loader />
-      ) : (
+      ) :relatedProducts.length? (
         <div className="container mx-auto mt-16">
           <h2 className="text-4xl mb-4 text-green-500">Related Products :</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -88,7 +88,7 @@ export default function ProductDetails() {
           })}
         </div>
       </div>
-      )}
+      ):""}
     </>
   );
 }
