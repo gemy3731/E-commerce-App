@@ -10,7 +10,7 @@ export default function LayOut() {
     <div className='container mx-auto min-h-[95vh] pt-6 lg:pt-24'>
     <Outlet />
     </div>
-    <div className='mt-8'>
+    <div className='mt-14'>
     <Footer/>
     </div>
     </>
