@@ -14,7 +14,7 @@ export default function NavBar() {
   }
   
   return (
-<nav className="bg-green-300 lg:fixed top-0 left-0 right-0">
+<nav className="bg-green-300 lg:fixed top-0 left-0 right-0 z-40">
   <div className="container mx-auto">
   <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
     

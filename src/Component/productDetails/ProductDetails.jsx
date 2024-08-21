@@ -3,8 +3,54 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loader from "../Loader/Loader";
 import ProductItem from "../ProductItem/ProductItem";
+import Slider from "react-slick";
 
 export default function ProductDetails() {
+  var settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    
+  };
+  var relatedSettings = {
+    dots: true,
+    infinite: true,
+    speed: 2000,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    cssEase: "linear",
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          initialSlide: 2
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ],
+  };
   const [ProductDetails, setProductDetails] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -45,16 +91,16 @@ export default function ProductDetails() {
 
   return (
     <>
+    
       {isLoading ? (
         <Loader />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 items-center">
+          
           <div className="w-[50%] mx-auto">
-            <img
-              src={ProductDetails.imageCover}
-              alt={ProductDetails.title}
-              className="w-full"
-            />
+          <Slider {...settings}>
+            {ProductDetails.images.map((src)=> <img key={ProductDetails.id} src={src} alt={ProductDetails.title} className="w-full" />)}
+         </Slider>
           </div>
           <div>
             <h2 className="text-3xl font-semibold mb-5">
@@ -82,10 +128,13 @@ export default function ProductDetails() {
       ) :relatedProducts.length? (
         <div className="container mx-auto mt-16">
           <h2 className="text-4xl mb-4 text-green-500">Related Products :</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="w-full mx-auto">
+        <Slider {...relatedSettings}>
+
           {relatedProducts?.map((product) => {
-            return <ProductItem key={product.id} product={product} />;
+            return <div className="p-5"><ProductItem key={product.id} product={product} /></div>;
           })}
+        </Slider>
         </div>
       </div>
       ):""}
