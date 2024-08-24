@@ -6,7 +6,6 @@ import { UserTokenContext } from '../../Context/UserTokenContext';
 export default function NavBar() {
   const {token,setToken} = useContext(UserTokenContext);
   const navigate = useNavigate();
-  console.log(token);
   function logOut(){
     setToken(null);
     localStorage.removeItem("token");

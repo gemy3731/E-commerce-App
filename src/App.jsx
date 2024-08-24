@@ -16,6 +16,8 @@ import UserTokenContextProvider from './Context/UserTokenContext'
 import ProtectedRoutes from './Component/ProtectedRoutes/ProtectedRoutes'
 import ProtectedRoutesRegister from './Component/ProtectedRoutesRegister/ProtectedRoutesRegister'
 import ProductDetails from './Component/productDetails/ProductDetails'
+import CartContextProvider from './Context/CartContext'
+import { Toaster } from 'react-hot-toast';
 
 
 const router =createBrowserRouter([
@@ -39,8 +41,10 @@ function App() {
   return (
     <>
     <UserTokenContextProvider>
+      <CartContextProvider>
       <RouterProvider router={router} />
-
+      <Toaster />
+      </CartContextProvider>
     </UserTokenContextProvider>
 
       
