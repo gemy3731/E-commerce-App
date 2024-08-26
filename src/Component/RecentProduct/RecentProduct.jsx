@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 export default function RecentProduct() {
   const [btnLoading, setBtnLoading] = useState(false);
   const { addProductToCart } = useContext(CartContext);
-
+// Display 20 products in home page 
   function getAllProducts() {
     return axios.get(
       "https://ecommerce.routemisr.com/api/v1/products?limit=20"
@@ -20,10 +20,9 @@ export default function RecentProduct() {
     queryFn: getAllProducts,
     select: (data) => data.data.data,
   });
-
+// Add products to cart
   async function addToCart(id) {
     setBtnLoading(true);
-
     let res = await addProductToCart(id);
     setBtnLoading(false);
     if (res.data?.status == "success") {
