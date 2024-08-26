@@ -1,16 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function ProductItem({ product, addCart, loading }) {
-  const [loadingItem, setLoadingItem] = useState({});
-
-  const handleAddToCart = (productId) => {
-    setLoadingItem((prev) => ({ ...prev, [productId]: true }));
-    addCart(productId).finally(() => {
-      setLoadingItem((prev) => ({ ...prev, [productId]: false }));
-    });
-  };
-
+export default function ProductItem({ product, addCart, loading,loadingItem }) {
   return (
     <div className="product rounded-lg overflow-hidden">
       <Link to={`/productdetails/${product.id}/${product.category._id}`}>
@@ -33,7 +24,6 @@ export default function ProductItem({ product, addCart, loading }) {
         <button
           onClick={() => {
             addCart(product.id);
-            handleAddToCart(product.id);
           }}
           className="btn bg-green-500 w-[80%] rounded-lg py-2 text-white font-bold"
         >

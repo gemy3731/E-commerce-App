@@ -56,6 +56,7 @@ export default function ProductDetails() {
   const [ProductDetails, setProductDetails] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [loadingItem, setLoadingItem] = useState({});
   const { id, categoryId } = useParams();
   const { addProductToCart } = useContext(CartContext);
 
@@ -67,9 +68,7 @@ export default function ProductDetails() {
   }, []);
 
   function getProductDetails() {
-    
-    axios
-      .get(`https://ecommerce.routemisr.com/api/v1/products/${id}`)
+    axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`)
       .then(({ data }) => {
         setProductDetails(data.data);
         setIsLoading(false);
@@ -96,9 +95,10 @@ export default function ProductDetails() {
   }
   async function addToCart(id) {
     setBtnLoading(true)
+    setLoadingItem((prev) => ({ ...prev, [id]: true }));
     const res = await addProductToCart(id);
     setBtnLoading(false)
-
+    setLoadingItem((prev) => ({ ...prev, [id]: false }));
     if (res.data?.status == "success") {
       toast.success(res.data.message, {
         position: "right-bottom",
@@ -167,7 +167,7 @@ export default function ProductDetails() {
               {relatedProducts?.map((product) => {
                 return (
                   <div key={product.id} className="p-5">
-                    <ProductItem loading={btnLoading} addCart={addToCart} product={product} />
+                    <ProductItem loading={btnLoading} loadingItem={loadingItem} addCart={addToCart} product={product} />
                   </div>
                 );
               })}

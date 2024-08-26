@@ -8,7 +8,9 @@ import { useQuery } from "@tanstack/react-query";
 
 export default function RecentProduct() {
   const [btnLoading, setBtnLoading] = useState(false);
+  const [loadingItem, setLoadingItem] = useState({});
   const { addProductToCart } = useContext(CartContext);
+
 // Display 20 products in home page 
   function getAllProducts() {
     return axios.get(
@@ -23,8 +25,10 @@ export default function RecentProduct() {
 // Add products to cart
   async function addToCart(id) {
     setBtnLoading(true);
+    setLoadingItem((prev) => ({ ...prev, [id]: true }));
     let res = await addProductToCart(id);
     setBtnLoading(false);
+    setLoadingItem((prev) => ({ ...prev, [id]: false }));
     if (res.data?.status == "success") {
       toast.success(res.data.message, {
         position: "right-bottom",
@@ -57,6 +61,7 @@ export default function RecentProduct() {
                   addCart={addToCart}
                   loading={btnLoading}
                   product={product}
+                  loadingItem={loadingItem}
                 />
               );
             })}

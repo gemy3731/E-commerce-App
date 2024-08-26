@@ -45,7 +45,7 @@ export default function Cart() {
           <h2 className="text-5xl font-bold text-green-700 text-center mb-16">
             Shipping Cart
           </h2>
-          <div className="flex justify-between px-16 text-green-600 text-2xl font-semibold my-8 w-[75%] mx-auto">
+          <div className="flex flex-col md:flex-row justify-between px-16 text-green-600 text-2xl font-semibold my-8 w-[75%] mx-auto">
             <span>Total Number Of Products : {cartInfo?.numOfCartItems}</span>
             <span>Total Price : {cartInfo?.data.totalCartPrice} EGP</span>
           </div>
