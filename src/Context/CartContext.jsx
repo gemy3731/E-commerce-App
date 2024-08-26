@@ -1,24 +1,23 @@
-import axios from 'axios';
-import React, { createContext, useContext } from 'react'
-import { UserTokenContext } from './UserTokenContext';
+import axios from "axios";
+import React, { createContext, useContext } from "react";
 export const CartContext = createContext();
 const headers = {
-   token :localStorage.getItem("token")
-}
+  token: window.localStorage.getItem("token"),
+};
 function addProductToCart(productId) {
-    console.log(productId);
-    
-    return axios.post("https://ecommerce.routemisr.com/api/v1/cart",
-        {productId},
-        {headers}).then(res=>res).catch(err=>err);
- }
-export default function CartContextProvider({children}) {
-    const {token}= useContext(UserTokenContext)
-    
-
+  return axios
+    .post(
+      "https://ecommerce.routemisr.com/api/v1/cart",
+      { productId },
+      { headers }
+    )
+    .then((res) => res)
+    .catch((err) => err);
+}
+export default function CartContextProvider({ children }) {
   return (
-    <CartContext.Provider value={{addProductToCart}}>
-        {children}
+    <CartContext.Provider value={{ addProductToCart }}>
+      {children}
     </CartContext.Provider>
-  )
+  );
 }

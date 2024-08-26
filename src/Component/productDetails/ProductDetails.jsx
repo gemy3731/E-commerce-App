@@ -16,7 +16,6 @@ export default function ProductDetails() {
     slidesToScroll: 1,
   };
   var relatedSettings = {
-
     dots: true,
     infinite: true,
     speed: 3000,
@@ -57,7 +56,7 @@ export default function ProductDetails() {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { id, categoryId } = useParams();
- const {addProductToCart} =useContext(CartContext)
+  const { addProductToCart } = useContext(CartContext);
 
   useEffect(() => {
     getProductDetails();
@@ -92,27 +91,26 @@ export default function ProductDetails() {
     );
     setRelatedProducts(res);
   }
- async function addToCart(id) {
-   const res = await addProductToCart(id)
-   console.log(res);
-   
-    if (res.data?.status=="success") {
-      toast.success(res.data.message,{
-        position: 'right-bottom',
+  async function addToCart(id) {
+    const res = await addProductToCart(id);
+    console.log(res);
+
+    if (res.data?.status == "success") {
+      toast.success(res.data.message, {
+        position: "right-bottom",
         style: {
-          "backgroundColor":"black",
-          "color":"white"
+          backgroundColor: "black",
+          color: "white",
         },
-      })
-      
-    }else{
-      toast.error(res.response.data.message,{
-        position: 'right-bottom',
+      });
+    } else {
+      toast.error(res.response.data.message, {
+        position: "right-bottom",
         style: {
-          "backgroundColor":"black",
-          "color":"white"
+          backgroundColor: "black",
+          color: "white",
         },
-      })
+      });
     }
   }
 
@@ -147,7 +145,12 @@ export default function ProductDetails() {
               </span>
             </div>
             <div className="flex justify-between items-center mt-2 p-2">
-              <button onClick={()=>{addToCart(ProductDetails.id)}} className=" bg-green-500 w-[80%] rounded-lg py-2 text-white font-bold">
+              <button
+                onClick={() => {
+                  addToCart(ProductDetails.id);
+                }}
+                className=" bg-green-500 w-[80%] rounded-lg py-2 text-white font-bold"
+              >
                 + Add to cart
               </button>
               <i className="fa-solid fa-heart text-2xl"></i>
@@ -161,7 +164,7 @@ export default function ProductDetails() {
         <div className="container mx-auto mt-16">
           <h2 className="text-4xl mb-4 text-green-500">Related Products :</h2>
           <div className="w-full">
-            <Slider  {...relatedSettings}>
+            <Slider {...relatedSettings}>
               {relatedProducts?.map((product) => {
                 return (
                   <div key={product.id} className="p-5">
