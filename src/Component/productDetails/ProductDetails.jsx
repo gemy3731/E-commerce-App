@@ -52,6 +52,7 @@ export default function ProductDetails() {
       },
     ],
   };
+  const [btnLoading, setBtnLoading] = useState(false);
   const [ProductDetails, setProductDetails] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -66,6 +67,7 @@ export default function ProductDetails() {
   }, []);
 
   function getProductDetails() {
+    
     axios
       .get(`https://ecommerce.routemisr.com/api/v1/products/${id}`)
       .then(({ data }) => {
@@ -76,6 +78,7 @@ export default function ProductDetails() {
         }
       })
       .catch((err) => console.log(err));
+      
   }
   function getRelatedProducts() {
     axios
@@ -92,8 +95,9 @@ export default function ProductDetails() {
     setRelatedProducts(res);
   }
   async function addToCart(id) {
+    setBtnLoading(true)
     const res = await addProductToCart(id);
-    console.log(res);
+    setBtnLoading(false)
 
     if (res.data?.status == "success") {
       toast.success(res.data.message, {
@@ -145,14 +149,9 @@ export default function ProductDetails() {
               </span>
             </div>
             <div className="flex justify-between items-center mt-2 p-2">
-              <button
-                onClick={() => {
-                  addToCart(ProductDetails.id);
-                }}
-                className=" bg-green-500 w-[80%] rounded-lg py-2 text-white font-bold"
-              >
-                + Add to cart
-              </button>
+              <button onClick={() => {addToCart(ProductDetails.id);}} className=" bg-green-500 w-[80%] rounded-lg py-2 text-white font-bold">
+               {btnLoading? <i className="fa fa-spinner fa-spin"></i>: <span>+ Add to cart </span>}
+                </button>
               <i className="fa-solid fa-heart text-2xl"></i>
             </div>
           </div>
@@ -168,7 +167,7 @@ export default function ProductDetails() {
               {relatedProducts?.map((product) => {
                 return (
                   <div key={product.id} className="p-5">
-                    <ProductItem addCart={addToCart} product={product} />
+                    <ProductItem loading={btnLoading} addCart={addToCart} product={product} />
                   </div>
                 );
               })}
