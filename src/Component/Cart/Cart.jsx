@@ -8,7 +8,7 @@ export default function Cart() {
   const [isLoading, setIsLoading] = useState(true);
   const [isRemoved, setIsRemoved] = useState(false);
 
-  const { getCartProducts, removeCartProduct } = useContext(CartContext);
+  const { getCartProducts, removeCartProduct, updateCartProduct } = useContext(CartContext);
   useEffect(() => {
     getProducts();
   }, []);
@@ -25,13 +25,21 @@ export default function Cart() {
     setCartInfo(res.data);  // display products after user removed product
     setIsRemoved(false);  //subLoader that display when user remove product in cart
   }
+    // Update product in cart
+  async function updateProduct(id , count) {
+    if(count==0) return
+    setIsRemoved(true);    //subLoader that display when user remove product in cart
+    const res = await updateCartProduct(id,count)
+    setCartInfo(res.data);  // display products after user update product quantity
+    setIsRemoved(false);  //subLoader that display when user remove product in cart
+  }
   return (
     <>
       {isLoading ? (
         <Loader />
       ) : (
         <div>
-          {/*  loader from removing item */}
+          {/*  loader from removing or update item */}
           {isRemoved ? (
             <div className="fixed z-50 right-0 left-0 bottom-0 top-0">
               <SubLoader />
@@ -74,7 +82,7 @@ export default function Cart() {
                 {cartInfo?.data?.products?.map((ele) => {
                   return (
                     <tr
-                      key={ele._id}
+                      key={ele.product._id}
                       className="bg-white border-b border-b-gray-300 hover:bg-gray-50 "
                     >
                       <td className="p-4 ">
@@ -90,6 +98,8 @@ export default function Cart() {
                       <td className="px-6 py-4">
                         <div className="flex items-center">
                           <button
+                            disabled={ele.count==1}
+                            onClick={()=>{updateProduct(ele.product._id,ele.count - 1)}}
                             className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-green-600 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200      "
                             type="button"
                           >
@@ -114,6 +124,7 @@ export default function Cart() {
                             <span>{ele.count}</span>
                           </div>
                           <button
+                            onClick={()=>{updateProduct(ele.product._id,ele.count+1)}}
                             className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-green-600 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200      "
                             type="button"
                           >
