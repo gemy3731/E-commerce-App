@@ -32,9 +32,14 @@ function updateCartProduct(id , count) {
     .then((res) => res)
     .catch((err) => err);
 }
+function clearCart() {
+  return axios.delete('https://ecommerce.routemisr.com/api/v1/cart',{headers})
+    .then((res) => res)
+    .catch((err) => err);
+}
 export default function CartContextProvider({ children }) {
   return (
-    <CartContext.Provider value={{ addProductToCart,getCartProducts,removeCartProduct,updateCartProduct }}>
+    <CartContext.Provider value={{ addProductToCart,getCartProducts,removeCartProduct,updateCartProduct,clearCart }}>
       {children}
     </CartContext.Provider>
   );

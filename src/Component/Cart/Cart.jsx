@@ -8,7 +8,7 @@ export default function Cart() {
   const [isLoading, setIsLoading] = useState(true);
   const [isRemoved, setIsRemoved] = useState(false);
 
-  const { getCartProducts, removeCartProduct, updateCartProduct } = useContext(CartContext);
+  const { getCartProducts, removeCartProduct, updateCartProduct,clearCart } = useContext(CartContext);
   useEffect(() => {
     getProducts();
   }, []);
@@ -16,6 +16,11 @@ export default function Cart() {
   async function getProducts() {
     const { data } = await getCartProducts();
     setCartInfo(data);
+    console.log(data);
+    
+    if (data.numOfCartItems==0) {
+      setCartInfo("Your Cart Is Empty")
+    }
     setIsLoading(false);
   }
   // remove product from cart
@@ -28,10 +33,16 @@ export default function Cart() {
     // Update product in cart
   async function updateProduct(id , count) {
     if(count==0) return
-    setIsRemoved(true);    //subLoader that display when user remove product in cart
+    setIsRemoved(true);    //subLoader that display when user update product in cart
     const res = await updateCartProduct(id,count)
     setCartInfo(res.data);  // display products after user update product quantity
-    setIsRemoved(false);  //subLoader that display when user remove product in cart
+    setIsRemoved(false);  //subLoader that display when user update product in cart
+  }
+  async function clearAllCart() {
+    setIsRemoved(true);    //subLoader that display when user clear cart
+    const res = await clearCart()
+    setCartInfo("Your Cart Is Empty");  // display msg after user clear cart
+    setIsRemoved(false);  //subLoader that display when user clear cart
   }
   return (
     <>
@@ -39,7 +50,7 @@ export default function Cart() {
         <Loader />
       ) : (
         <div>
-          {/*  loader from removing or update item */}
+          {/*  loader from removing , update item or clear cart*/}
           {isRemoved ? (
             <div className="fixed z-50 right-0 left-0 bottom-0 top-0">
               <SubLoader />
@@ -55,11 +66,11 @@ export default function Cart() {
           </h2>
           <div className="flex flex-col md:flex-row justify-between px-16 text-green-600 text-2xl font-semibold my-8 w-[75%] mx-auto">
             <span>Total Number Of Products : {cartInfo?.numOfCartItems}</span>
-            <span>Total Price : {cartInfo?.data.totalCartPrice} EGP</span>
+            <span>Total Price : {cartInfo?.data?.totalCartPrice} {cartInfo?.data?.totalCartPrice?"EGP":""}</span>
           </div>
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg px-12">
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
-              <thead className="text-xl text-green-600 uppercase bg-gray-50 border-b border-b-gray-300 ">
+            <table className="w-full text-sm text-center rtl:text-right text-gray-500  ">
+              <thead className="text-2xl text-green-600  bg-gray-50 border-b border-b-gray-300 ">
                 <tr>
                   <th scope="col" className="px-16 py-3">
                     <span className="sr-only">Image</span>
@@ -68,13 +79,16 @@ export default function Cart() {
                     Product
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Qty
+                    Quantity
                   </th>
                   <th scope="col" className="px-6 py-3">
                     Price
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Action
+                    Total Price per product
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Remove
                   </th>
                 </tr>
               </thead>
@@ -150,6 +164,9 @@ export default function Cart() {
                       <td className="px-6 py-4 font-semibold text-green-600 ">
                         {ele.price} EGP
                       </td>
+                      <td className="px-6 py-4 font-semibold text-green-600 ">
+                        {ele.price*ele.count} EGP
+                      </td>
                       <td className="px-6 py-4">
                         <button
                           onClick={() => {
@@ -164,7 +181,10 @@ export default function Cart() {
                   );
                 })}
               </tbody>
+              
             </table>
+            {cartInfo==="Your Cart Is Empty"?<p className="text-center text-green-700 font-medium text-2xl my-16">Your Cart Is Empty</p>:null}
+            <button disabled={cartInfo==="Your Cart Is Empty"} onClick={clearAllCart} className="border border-green-500 mt-5 block mx-auto py-2 px-4 rounded-lg hover:bg-green-600 hover:text-white font-semibold">Clear Cart</button>
           </div>
         </div>
       )}
