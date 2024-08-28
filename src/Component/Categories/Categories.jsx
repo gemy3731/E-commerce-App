@@ -63,7 +63,7 @@ export default function Categories() {
               alt={category.name}
               className="w-full h-[300px]"
             />
-            <h2>{category.name}</h2>
+            <h2 className="text-lg">{category.name}</h2>
           </div>
         ))}
       </Slider>

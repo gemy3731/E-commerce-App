@@ -8,7 +8,7 @@ export default function Cart() {
   const [isLoading, setIsLoading] = useState(true);
   const [isRemoved, setIsRemoved] = useState(false);
 
-  const { getCartProducts, removeCartProduct, updateCartProduct,clearCart } = useContext(CartContext);
+  const { getCartProducts, removeCartProduct, updateCartProduct,clearCart,cartNum, setCartNum } = useContext(CartContext);
   useEffect(() => {
     getProducts();
   }, []);
@@ -16,6 +16,7 @@ export default function Cart() {
   async function getProducts() {
     const { data } = await getCartProducts();
     setCartInfo(data);
+    setCartNum(data.numOfCartItems)          //update cart notification 
     console.log(data);
     
     if (data.numOfCartItems==0) {
@@ -25,24 +26,26 @@ export default function Cart() {
   }
   // remove product from cart
   async function removeProducts(id) {
-    setIsRemoved(true);    //subLoader that display when user remove product in cart
+    setIsRemoved(true);                      //subLoader that display when user remove product in cart
     const res = await removeCartProduct(id);
-    setCartInfo(res.data);  // display products after user removed product
-    setIsRemoved(false);  //subLoader that display when user remove product in cart
+    setCartInfo(res.data);                   // display products after user removed product
+    setIsRemoved(false);                 //subLoader that display when user remove product in cart
+    setCartNum(res.data.numOfCartItems)          //update cart notification 
   }
     // Update product in cart
   async function updateProduct(id , count) {
     if(count==0) return
-    setIsRemoved(true);    //subLoader that display when user update product in cart
+    setIsRemoved(true);                  //subLoader that display when user update product in cart
     const res = await updateCartProduct(id,count)
-    setCartInfo(res.data);  // display products after user update product quantity
-    setIsRemoved(false);  //subLoader that display when user update product in cart
+    setCartInfo(res.data);               // display products after user update product quantity
+    setIsRemoved(false);               //subLoader that display when user update product in cart
   }
   async function clearAllCart() {
-    setIsRemoved(true);    //subLoader that display when user clear cart
+    setIsRemoved(true);              //subLoader that display when user clear cart
     const res = await clearCart()
-    setCartInfo("Your Cart Is Empty");  // display msg after user clear cart
-    setIsRemoved(false);  //subLoader that display when user clear cart
+    setCartInfo("Your Cart Is Empty");            // display msg after user clear cart
+    setIsRemoved(false);              //subLoader that display when user clear cart
+    setCartNum(res.data.numOfCartItems)          //update cart notification 
   }
   return (
     <>
@@ -50,7 +53,7 @@ export default function Cart() {
         <Loader />
       ) : (
         <div>
-          {/*  loader from removing , update item or clear cart*/}
+          {/*  loader from removing , update item or clear*/}
           {isRemoved ? (
             <div className="fixed z-50 right-0 left-0 bottom-0 top-0">
               <SubLoader />
@@ -61,16 +64,16 @@ export default function Cart() {
             </div>
           )}
           {/* Cart products */}
-          <h2 className="text-5xl font-bold text-green-700 text-center mb-16">
+          <h2 className="text-5xl font-bold text-black text-center mb-16">
             Shipping Cart
           </h2>
-          <div className="flex flex-col md:flex-row justify-between px-16 text-green-600 text-2xl font-semibold my-8 w-[75%] mx-auto">
+          <div className="flex flex-col md:flex-row justify-between px-16 text-black text-2xl font-semibold my-8 w-[75%] mx-auto">
             <span>Total Number Of Products : {cartInfo?.numOfCartItems}</span>
             <span>Total Price : {cartInfo?.data?.totalCartPrice} {cartInfo?.data?.totalCartPrice?"EGP":""}</span>
           </div>
-          <div className="relative overflow-x-auto shadow-md sm:rounded-lg px-12">
+          <div className="relative overflow-x-auto sm:rounded-lg px-12">
             <table className="w-full text-sm text-center rtl:text-right text-gray-500  ">
-              <thead className="text-2xl text-green-600  bg-gray-50 border-b border-b-gray-300 ">
+              <thead className="text-2xl text-black bg-gray-50 border-b border-b-gray-300 ">
                 <tr>
                   <th scope="col" className="px-16 py-3">
                     <span className="sr-only">Image</span>
@@ -97,7 +100,7 @@ export default function Cart() {
                   return (
                     <tr
                       key={ele.product._id}
-                      className="bg-white border-b border-b-gray-300 hover:bg-gray-50 "
+                      className="bg-white border-b border-b-gray-300 product"
                     >
                       <td className="p-4 ">
                         <img
@@ -106,7 +109,7 @@ export default function Cart() {
                           alt={ele.product.title}
                         />
                       </td>
-                      <td className="px-6 py-4 font-semibold text-green-600 ">
+                      <td className="px-6 py-4 font-semibold text-black ">
                         {ele.product.title}
                       </td>
                       <td className="px-6 py-4">
@@ -114,7 +117,7 @@ export default function Cart() {
                           <button
                             disabled={ele.count==1}
                             onClick={()=>{updateProduct(ele.product._id,ele.count - 1)}}
-                            className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-green-600 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200      "
+                            className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-black bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200      "
                             type="button"
                           >
                             <span className="sr-only">Quantity button</span>
@@ -139,7 +142,7 @@ export default function Cart() {
                           </div>
                           <button
                             onClick={()=>{updateProduct(ele.product._id,ele.count+1)}}
-                            className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-green-600 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200      "
+                            className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-black bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200      "
                             type="button"
                           >
                             <span className="sr-only">Quantity button</span>
@@ -161,10 +164,10 @@ export default function Cart() {
                           </button>
                         </div>
                       </td>
-                      <td className="px-6 py-4 font-semibold text-green-600 ">
+                      <td className="px-6 py-4 font-semibold text-black ">
                         {ele.price} EGP
                       </td>
-                      <td className="px-6 py-4 font-semibold text-green-600 ">
+                      <td className="px-6 py-4 font-semibold text-black ">
                         {ele.price*ele.count} EGP
                       </td>
                       <td className="px-6 py-4">
@@ -184,7 +187,11 @@ export default function Cart() {
               
             </table>
             {cartInfo==="Your Cart Is Empty"?<p className="text-center text-green-700 font-medium text-2xl my-16">Your Cart Is Empty</p>:null}
-            <button disabled={cartInfo==="Your Cart Is Empty"} onClick={clearAllCart} className="border border-green-500 mt-5 block mx-auto py-2 px-4 rounded-lg hover:bg-green-600 hover:text-white font-semibold">Clear Cart</button>
+            <div className="mt-5 flex flex-wrap gap-y-3 ">
+            <button  className="border border-green-500   w-full lg:w-[70%] py-2 px-4 rounded-lg bg-green-500 hover:bg-green-600 text-white font-semibold">CheckOut</button>
+            <button disabled={cartInfo==="Your Cart Is Empty"} onClick={clearAllCart} className=" text-white bg-red-500  w-1/4 mx-auto py-2 px-4 rounded-lg hover:bg-red-800 font-semibold">Clear Cart</button>
+
+            </div>
           </div>
         </div>
       )}

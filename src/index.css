@@ -3,18 +3,21 @@
 @tailwind utilities;
 /* You can add global styles to this file, and also import other style files */
 @import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@300&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
 :root
 {
     --main-color:#0aad0a;
     --light-color:#f0f3f2;
     --shadow: 1px 1px 10px #4fa74f;
-    --font-family:'Encode Sans Expanded', sans-serif;
+    --font-family: "Playfair Display", serif;
     --rating-color:#ffc908;
 }
 
-/* body{
+body{
     font-family: var(--font-family) !important;
-} */
+}
 .rating-color
 {
     color: var(--rating-color);
@@ -62,4 +65,16 @@ a , a:hover{
 .bg-main-light 
 {
     background-color: var(--light-color) !important;
+}
+.cartN{
+    width: 20px;
+    height: 20px;
+    border-radius: 50% 50% 50% 0;
+    /* position: absolute; */
+    /* top: -70%;
+    left: 70%; */
+    /* background-color: #65cc65; */
+    /* font-size: 14px; */
+    /* color: #000; */
+    font-weight: 900;
 }

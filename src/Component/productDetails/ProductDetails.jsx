@@ -58,7 +58,7 @@ export default function ProductDetails() {
   const [isLoading, setIsLoading] = useState(true);
   const [loadingItem, setLoadingItem] = useState({});
   const { id, categoryId } = useParams();
-  const { addProductToCart } = useContext(CartContext);
+  const { addProductToCart,setCartNum } = useContext(CartContext);
 
   useEffect(() => {
     getProductDetails();
@@ -97,6 +97,7 @@ export default function ProductDetails() {
     setBtnLoading(true)
     setLoadingItem((prev) => ({ ...prev, [id]: true }));
     const res = await addProductToCart(id);
+    setCartNum(res.data.numOfCartItems)          //update cart notification 
     setBtnLoading(false)
     setLoadingItem((prev) => ({ ...prev, [id]: false }));
     if (res.data?.status == "success") {
@@ -137,11 +138,11 @@ export default function ProductDetails() {
             </Slider>
           </div>
           <div>
-            <h2 className="text-3xl font-semibold mb-5">
+            <h2 className="text-3xl text-green-600 font-semibold mb-5">
               {ProductDetails.title}
             </h2>
-            <p className="mb-5">{ProductDetails.description}</p>
-            <div className="flex items-center justify-between mb-5">
+            <p className="mb-5 text-lg">{ProductDetails.description}</p>
+            <div className="flex items-center justify-between mb-5 text-lg">
               <span>{ProductDetails.price} EGP</span>
               <span>
                 <i className="fa-solid fa-star rating-color me-1"></i>
@@ -149,8 +150,8 @@ export default function ProductDetails() {
               </span>
             </div>
             <div className="flex justify-between items-center mt-2 p-2">
-              <button onClick={() => {addToCart(ProductDetails.id);}} className=" bg-green-500 w-[80%] rounded-lg py-2 text-white font-bold">
-               {btnLoading? <i className="fa fa-spinner fa-spin"></i>: <span>+ Add to cart </span>}
+              <button onClick={() => {addToCart(ProductDetails.id);}} className=" bg-green-500 w-[80%] rounded-lg py-2 text-white font-bold text-lg">
+               {btnLoading? <i className="fa fa-spinner fa-spin"></i>: <span>+ Add To Cart </span>}
                 </button>
               <i className="fa-solid fa-heart text-2xl"></i>
             </div>
@@ -161,7 +162,7 @@ export default function ProductDetails() {
         <Loader />
       ) : relatedProducts.length ? (
         <div className="container mx-auto mt-16">
-          <h2 className="text-4xl mb-4 text-green-500">Related Products :</h2>
+          <h2 className="text-4xl mb-4 text-green-600">Related Products :</h2>
           <div className="w-full">
             <Slider {...relatedSettings}>
               {relatedProducts?.map((product) => {

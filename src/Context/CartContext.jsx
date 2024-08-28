@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useState } from "react";
 export const CartContext = createContext();
 const headers = {
   token: window.localStorage.getItem("token"),
@@ -38,8 +38,10 @@ function clearCart() {
     .catch((err) => err);
 }
 export default function CartContextProvider({ children }) {
+  const [cartId, setCartId] = useState(null)
+  const [cartNum, setCartNum] = useState(null)
   return (
-    <CartContext.Provider value={{ addProductToCart,getCartProducts,removeCartProduct,updateCartProduct,clearCart }}>
+    <CartContext.Provider value={{ addProductToCart,getCartProducts,removeCartProduct,updateCartProduct,clearCart,cartId, setCartId,cartNum, setCartNum }}>
       {children}
     </CartContext.Provider>
   );
