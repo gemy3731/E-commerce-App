@@ -5,11 +5,13 @@ import Loader from "../Loader/Loader";
 import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
 import { useQuery } from "@tanstack/react-query";
+import { WishListContext } from "../../Context/WishListContext";
 
 export default function RecentProduct() {
   const [btnLoading, setBtnLoading] = useState(false);
   const [loadingItem, setLoadingItem] = useState({});
   const { addProductToCart,setCartNum } = useContext(CartContext);
+  const { addProductToWishList } = useContext(WishListContext);
 
 // Display 20 products in home page 
   function getAllProducts() {
@@ -50,6 +52,28 @@ export default function RecentProduct() {
       });
     }
   }
+  async function addToWishList(productId) {
+    const res = await addProductToWishList(productId)
+    console.log(res);
+    if (res.data?.status == "success") {
+      toast.success(res.data.message, {
+        position: "right-bottom",
+        style: {
+          backgroundColor: "black",
+          color: "white",
+        },
+      });
+    } else {
+      toast.error(res.response.data.message, {
+        position: "right-bottom",
+        style: {
+          backgroundColor: "black",
+          color: "white",
+        },
+      });
+    }
+    
+  }
   return (
     <>
       {isLoading ? (
@@ -65,6 +89,7 @@ export default function RecentProduct() {
                   loading={btnLoading}
                   product={product}
                   loadingItem={loadingItem}
+                  addWishList={addToWishList}
                 />
               );
             })}

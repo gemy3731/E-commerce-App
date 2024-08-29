@@ -44,6 +44,9 @@ export default function NavBar() {
             </NavLink>
         </li>
         <li>
+          <NavLink to="wishList" className="block py-2 px-3 rounded lg:p-0">WishList</NavLink>
+        </li>
+        <li>
           <NavLink to="products" className="block py-2 px-3 rounded lg:p-0">Products</NavLink>
         </li>
         <li>

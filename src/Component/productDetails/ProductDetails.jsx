@@ -6,6 +6,7 @@ import ProductItem from "../ProductItem/ProductItem";
 import Slider from "react-slick";
 import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
+import { WishListContext } from "../../Context/WishListContext";
 
 export default function ProductDetails() {
   var settings = {
@@ -59,6 +60,8 @@ export default function ProductDetails() {
   const [loadingItem, setLoadingItem] = useState({});
   const { id, categoryId } = useParams();
   const { addProductToCart,setCartNum } = useContext(CartContext);
+  const { addProductToWishList } = useContext(WishListContext);
+
 
   useEffect(() => {
     getProductDetails();
@@ -118,6 +121,28 @@ export default function ProductDetails() {
       });
     }
   }
+  async function addToWishList(productId) {
+    const res = await addProductToWishList(productId)
+    console.log(res);
+    if (res.data?.status == "success") {
+      toast.success(res.data.message, {
+        position: "right-bottom",
+        style: {
+          backgroundColor: "black",
+          color: "white",
+        },
+      });
+    } else {
+      toast.error(res.response.data.message, {
+        position: "right-bottom",
+        style: {
+          backgroundColor: "black",
+          color: "white",
+        },
+      });
+    }
+    
+  }
 
   return (
     <>
@@ -153,7 +178,7 @@ export default function ProductDetails() {
               <button onClick={() => {addToCart(ProductDetails.id);}} className=" bg-green-500 w-[80%] rounded-lg py-2 text-white font-bold text-lg">
                {btnLoading? <i className="fa fa-spinner fa-spin"></i>: <span>+ Add To Cart </span>}
                 </button>
-              <i className="fa-solid fa-heart text-2xl"></i>
+              <i onClick={()=>addToWishList(ProductDetails.id)} className="fa-solid fa-heart text-2xl cursor-pointer"></i>
             </div>
           </div>
         </div>
@@ -168,7 +193,7 @@ export default function ProductDetails() {
               {relatedProducts?.map((product) => {
                 return (
                   <div key={product.id} className="p-5">
-                    <ProductItem loading={btnLoading} loadingItem={loadingItem} addCart={addToCart} product={product} />
+                    <ProductItem loading={btnLoading} loadingItem={loadingItem} addCart={addToCart} addWishList={addToWishList} product={product} />
                   </div>
                 );
               })}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function ProductItem({ product, addCart, loading,loadingItem }) {
+export default function ProductItem({ product, addCart, loading,loadingItem,addWishList }) {
   return (
     <div className="product rounded-lg overflow-hidden">
       <Link to={`/productdetails/${product.id}/${product.category._id}`}>
@@ -33,7 +33,7 @@ export default function ProductItem({ product, addCart, loading,loadingItem }) {
             <span>+ Add To Cart</span>
           )}
         </button>
-        <i className="fa-solid fa-heart text-2xl"></i>
+        <i onClick={()=>addWishList(product.id)} className="fa-solid fa-heart text-2xl cursor-pointer"></i>
       </div>
     </div>
   );

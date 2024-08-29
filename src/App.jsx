@@ -21,6 +21,8 @@ import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Checkout from "./Component/Checkout/Checkout";
+import WishListContextProvider, { WishListContext } from './Context/WishListContext';
+import WishList from "./Component/WishList/WishList";
 
 const query = new QueryClient();
 const router = createBrowserRouter([
@@ -116,6 +118,14 @@ const router = createBrowserRouter([
           </ProtectedRoutes>
         ),
       },
+      {
+        path: "wishList",
+        element: (
+          <ProtectedRoutes>
+            <WishList />
+          </ProtectedRoutes>
+        ),
+      },
 
       { path: "*", element: <NotFound /> },
     ],
@@ -126,11 +136,13 @@ function App() {
     <>
       <QueryClientProvider client={query}>
         <UserTokenContextProvider>
+          <WishListContextProvider>
           <CartContextProvider>
             <RouterProvider router={router} />
             <ReactQueryDevtools></ReactQueryDevtools>
             <Toaster />
           </CartContextProvider>
+          </WishListContextProvider>
         </UserTokenContextProvider>
       </QueryClientProvider>
     </>
