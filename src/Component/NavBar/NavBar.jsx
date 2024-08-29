@@ -8,7 +8,6 @@ export default function NavBar() {
   const {token,setToken} = useContext(UserTokenContext);
   const {cartNum, setCartNum,getCartProducts} = useContext(CartContext);
   let x = cartNum
-  console.log(x);
   useEffect(()=>{
     cartNumber()
   },[x])
@@ -37,7 +36,6 @@ export default function NavBar() {
           <NavLink to="home" className="block py-2 px-3 lg:p-0  " aria-current="page">Home</NavLink>
         </li>
         <li>
-          {console.log(cartNum)}
           <NavLink to="cart" className="  block py-2 px-3 rounded lg:p-0"><span className='me-1'>Cart</span>
           <span className='relative'>
             <i className="fa-solid fa-cart-arrow-down "></i>
