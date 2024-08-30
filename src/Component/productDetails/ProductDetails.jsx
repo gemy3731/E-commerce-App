@@ -105,7 +105,6 @@ export default function ProductDetails() {
     setLoadingItem((prev) => ({ ...prev, [id]: true }));
     const res = await addProductToCart(id);
     setCartNum(res.data.numOfCartItems)          //update cart notification 
-    setWishData(res.data.data)
     setBtnLoading(false)
     setLoadingItem((prev) => ({ ...prev, [id]: false }));
     if (res.data?.status == "success") {

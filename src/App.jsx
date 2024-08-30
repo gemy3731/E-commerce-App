@@ -24,6 +24,7 @@ import Checkout from "./Component/Checkout/Checkout";
 import WishListContextProvider, { WishListContext } from './Context/WishListContext';
 import WishList from "./Component/WishList/WishList";
 import SpecificCategory from "./Component/SpecificCategory/SpecificCategory";
+import SpecificBrand from "./Component/SpecificBrand/SpecificBrand";
 
 const query = new QueryClient();
 const router = createBrowserRouter([
@@ -100,6 +101,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoutes>
             <Brands />
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: "specificBrand/:brandId",
+        element: (
+          <ProtectedRoutes>
+            <SpecificBrand />
           </ProtectedRoutes>
         ),
       },

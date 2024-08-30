@@ -21,11 +21,12 @@ export default function Brands() {
       <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-4 gap-4 my-6">
       {console.log(data)}
       {data.map((brand)=><div key={brand._id} className="product border border-gray-400 rounded-lg overflow-hidden">
-      <Link to={`/brand/${brand._id}`}>
+      <Link to={`/specificBrand/${brand._id}`}>
         <img src={brand.image} className="w-full h-[350px]" alt={brand.name} />
       </Link>
       </div>)}
       </div>
+      
     )}
     </>
   )
