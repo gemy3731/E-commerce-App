@@ -1,72 +1,31 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Slider from "react-slick";
+
 
 export default function Categories() {
-  var settings = {
-    dots: true,
-    infinite: true,
-    speed: 3000,
-    slidesToShow: 8,
-    slidesToScroll: 3,
-    autoplay: true,
-    autoplaySpeed: 5000,
-    cssEase: "linear",
-    initialSlide: 0,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 1,
-          infinite: true,
-          dots: true,
-        },
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          initialSlide: 2,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
   const [categories, setCategories] = useState([]);
-  useEffect(() => {
-    getAllCategories();
-  }, []);
-  function getAllCategories() {
-    axios
-      .get("https://ecommerce.routemisr.com/api/v1/categories")
-      .then(({ data }) => {
-        setCategories(data.data);
-      })
-      .catch((err) => console.log(err));
-  }
+      useEffect(() => {
+        getAllCategories();
+      }, []);
+      function getAllCategories() {
+        axios
+          .get("https://ecommerce.routemisr.com/api/v1/categories")
+          .then(({ data }) => {
+            setCategories(data.data);
+            console.log(data);
+          })
+          .catch((err) => console.log(err));
+      }
   return (
-    <div>
-      <Slider {...settings}>
-        {categories.map((category) => (
-          <div key={category._id}>
-            <img
-              
-              src={category.image}
-              alt={category.name}
-              className="w-full h-[300px]"
-            />
-            <h2 className="text-lg">{category.name}</h2>
-          </div>
-        ))}
-      </Slider>
+    <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-4 gap-4 my-6">
+      {categories.map((category)=><div className="product rounded-lg overflow-hidden">
+      {/* <Link to={`/productdetails/${product.id}/${product.category._id}`}> */}
+        <img src={category.image} className="w-full h-[450px]" alt={category.name} />
+        <div className="p-2 text-center">
+          <h2 className="text-[#4fa74f] text-2xl ">{category.name}</h2>
+        </div>
+      {/* </Link> */}
+    </div>)}
     </div>
   );
 }

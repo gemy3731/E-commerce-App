@@ -1,7 +1,7 @@
 import React from "react";
 import RecentProduct from "../RecentProduct/RecentProduct";
-import Categories from "./../Categories/Categories";
 import MainSlider from "../MainSlider/MainSlider";
+import RecentCategories from "../RecentCategories/RecentCategories";
 
 export default function Home() {
   return (
@@ -10,7 +10,7 @@ export default function Home() {
         <MainSlider />
       </div>
       <div className="mb-16">
-        <Categories />
+        <RecentCategories />
       </div>
       <RecentProduct />
     </div>
