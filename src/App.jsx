@@ -23,6 +23,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Checkout from "./Component/Checkout/Checkout";
 import WishListContextProvider, { WishListContext } from './Context/WishListContext';
 import WishList from "./Component/WishList/WishList";
+import SpecificCategory from "./Component/SpecificCategory/SpecificCategory";
 
 const query = new QueryClient();
 const router = createBrowserRouter([
@@ -83,6 +84,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoutes>
             <Categories />
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: "specificCategory/:categoryId",
+        element: (
+          <ProtectedRoutes>
+            <SpecificCategory />
           </ProtectedRoutes>
         ),
       },
