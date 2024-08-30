@@ -18,6 +18,7 @@ export default function Categories() {
           .catch((err) => console.log(err));
       }
   return (
+    
     <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-4 gap-4 my-6">
       {categories.map((category)=><div key={category._id} className="product rounded-lg overflow-hidden">
       <Link to={`/specificCategory/${category._id}`}>
