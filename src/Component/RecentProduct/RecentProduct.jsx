@@ -10,9 +10,12 @@ import { WishListContext } from "../../Context/WishListContext";
 export default function RecentProduct() {
   const [btnLoading, setBtnLoading] = useState(false);
   const [loadingItem, setLoadingItem] = useState({});
+  const [wishData, setWishData] = useState([]);
   const { addProductToCart,setCartNum } = useContext(CartContext);
-  const { addProductToWishList } = useContext(WishListContext);
-
+  const { addProductToWishList,removeProductfromWishList,getWishListProducts } = useContext(WishListContext);
+useEffect(()=>{
+  getWishedProducts()
+},[])
 // Display 20 products in home page 
   function getAllProducts() {
     return axios.get(
@@ -29,8 +32,6 @@ export default function RecentProduct() {
     setBtnLoading(true);
     setLoadingItem((prev) => ({ ...prev, [id]: true }));
     let res = await addProductToCart(id);
-    console.log(res);
-    
     setCartNum(res.data.numOfCartItems)          //update cart notification 
     setBtnLoading(false);
     setLoadingItem((prev) => ({ ...prev, [id]: false }));
@@ -52,9 +53,34 @@ export default function RecentProduct() {
       });
     }
   }
+  async function getWishedProducts() {
+    const res = await getWishListProducts();
+    setWishData(res.data.data)
+  }
+  async function removeWishedProducts(id) {
+    const res = await removeProductfromWishList(id);
+    setWishData(res.data.data)
+    if (res.data?.status == "success") {
+      toast.success(res.data.message, {
+        position: "right-bottom",
+        style: {
+          backgroundColor: "black",
+          color: "white",
+        },
+      });
+    } else {
+      toast.error(res.response.data.message, {
+        position: "right-bottom",
+        style: {
+          backgroundColor: "black",
+          color: "white",
+        },
+      });
+    }
+  }
   async function addToWishList(productId) {
     const res = await addProductToWishList(productId)
-    console.log(res);
+    setWishData(res.data.data)
     if (res.data?.status == "success") {
       toast.success(res.data.message, {
         position: "right-bottom",
@@ -90,6 +116,8 @@ export default function RecentProduct() {
                   product={product}
                   loadingItem={loadingItem}
                   addWishList={addToWishList}
+                  wishedData={wishData}
+                  removeWished={removeWishedProducts}
                 />
               );
             })}

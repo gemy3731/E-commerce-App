@@ -58,9 +58,10 @@ export default function ProductDetails() {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [loadingItem, setLoadingItem] = useState({});
+  const [wishData, setWishData] = useState([]);
   const { id, categoryId } = useParams();
   const { addProductToCart,setCartNum } = useContext(CartContext);
-  const { addProductToWishList } = useContext(WishListContext);
+  const { addProductToWishList,removeProductfromWishList,getWishListProducts } = useContext(WishListContext);
 
 
   useEffect(() => {
@@ -68,6 +69,9 @@ export default function ProductDetails() {
   }, [id]);
   useEffect(() => {
     getRelatedProducts();
+  }, []);
+  useEffect(() => {
+    getWishedProducts();
   }, []);
 
   function getProductDetails() {
@@ -101,6 +105,7 @@ export default function ProductDetails() {
     setLoadingItem((prev) => ({ ...prev, [id]: true }));
     const res = await addProductToCart(id);
     setCartNum(res.data.numOfCartItems)          //update cart notification 
+    setWishData(res.data.data)
     setBtnLoading(false)
     setLoadingItem((prev) => ({ ...prev, [id]: false }));
     if (res.data?.status == "success") {
@@ -121,9 +126,35 @@ export default function ProductDetails() {
       });
     }
   }
+  async function removeWishedProducts(id) {
+    const res = await removeProductfromWishList(id);
+    setWishData(res.data.data)
+    if (res.data?.status == "success") {
+      toast.success(res.data.message, {
+        position: "right-bottom",
+        style: {
+          backgroundColor: "black",
+          color: "white",
+        },
+      });
+    } else {
+      toast.error(res.response.data.message, {
+        position: "right-bottom",
+        style: {
+          backgroundColor: "black",
+          color: "white",
+        },
+      });
+    }
+  }
+  async function getWishedProducts() {
+    const res = await getWishListProducts();
+    setWishData(res.data.data)
+  }
+
   async function addToWishList(productId) {
     const res = await addProductToWishList(productId)
-    console.log(res);
+    setWishData(res.data.data)
     if (res.data?.status == "success") {
       toast.success(res.data.message, {
         position: "right-bottom",
@@ -178,7 +209,8 @@ export default function ProductDetails() {
               <button onClick={() => {addToCart(ProductDetails.id);}} className=" bg-green-500 w-[80%] rounded-lg py-2 text-white font-bold text-lg">
                {btnLoading? <i className="fa fa-spinner fa-spin"></i>: <span>+ Add To Cart </span>}
                 </button>
-              <i onClick={()=>addToWishList(ProductDetails.id)} className="fa-solid fa-heart text-2xl cursor-pointer"></i>
+              <i onClick={()=>wishData.some((data)=>data.id==ProductDetails.id||data==ProductDetails.id)?removeWishedProducts(ProductDetails.id):addToWishList(ProductDetails.id)} 
+              className={`fa-solid fa-heart text-2xl cursor-pointer ${wishData.some((data)=>data.id==ProductDetails.id||data==ProductDetails.id)?"text-red-700":"text-black"}`}></i>
             </div>
           </div>
         </div>
@@ -193,7 +225,14 @@ export default function ProductDetails() {
               {relatedProducts?.map((product) => {
                 return (
                   <div key={product.id} className="p-5">
-                    <ProductItem loading={btnLoading} loadingItem={loadingItem} addCart={addToCart} addWishList={addToWishList} product={product} />
+                    <ProductItem 
+                    loading={btnLoading} 
+                    loadingItem={loadingItem} 
+                    addCart={addToCart} 
+                    addWishList={addToWishList} product={product}
+                    wishedData={wishData}
+                    removeWished={removeWishedProducts}
+                     />
                   </div>
                 );
               })}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function ProductItem({ product, addCart, loading,loadingItem,addWishList }) {
+export default function ProductItem({ product, addCart, loading,loadingItem,addWishList,wishedData,removeWished }) {
   return (
     <div className="product rounded-lg overflow-hidden">
       <Link to={`/productdetails/${product.id}/${product.category._id}`}>
@@ -33,7 +33,9 @@ export default function ProductItem({ product, addCart, loading,loadingItem,addW
             <span>+ Add To Cart</span>
           )}
         </button>
-        <i onClick={()=>addWishList(product.id)} className="fa-solid fa-heart text-2xl cursor-pointer"></i>
+        <i onClick={()=>{
+          wishedData.some((data)=>data.id==product.id||data==product.id)?removeWished(product.id):addWishList(product.id);}}
+           className={`fa-solid fa-heart text-2xl cursor-pointer ${wishedData.some((data)=>data.id==product.id||data==product.id)?"text-red-700":"text-black"}`}></i>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import Loader from "../Loader/Loader";
 import ProductItem from "../ProductItem/ProductItem";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import { WishListContext } from "../../Context/WishListContext";
 
 export default function Products() {
   const [btnLoading, setBtnLoading] = useState(false);
@@ -14,21 +15,21 @@ export default function Products() {
   const [productData, setProductData] = useState([])
   const [pageNum, setPageNum] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
+  const [wishData, setWishData] = useState([]);
+  const { addProductToWishList,removeProductfromWishList,getWishListProducts } = useContext(WishListContext);
   const { addProductToCart, setCartNum } = useContext(CartContext);
   // Display  products in Products page
   useEffect(()=>{
     getAllProducts()
   },[count])
+  useEffect(()=>{
+    getWishedProducts()
+  },[])
   function getAllProducts() {
-    console.log(count);
     return axios.get(`https://ecommerce.routemisr.com/api/v1/products?page=${count}`).then(({data})=>{
       setProductData(data.data)
       setPageNum(data.metadata)
-
       setIsLoading(false)
-      console.log(data);
-      console.log(pageNum);
-      
     })
   }
   // const { data, isLoading, isError } = useQuery({
@@ -66,6 +67,53 @@ export default function Products() {
       });
     }
   }
+  async function getWishedProducts() {
+    const res = await getWishListProducts();
+    setWishData(res.data.data)
+  }
+  async function removeWishedProducts(id) {
+    const res = await removeProductfromWishList(id);
+    setWishData(res.data.data)
+    if (res.data?.status == "success") {
+      toast.success(res.data.message, {
+        position: "right-bottom",
+        style: {
+          backgroundColor: "black",
+          color: "white",
+        },
+      });
+    } else {
+      toast.error(res.response.data.message, {
+        position: "right-bottom",
+        style: {
+          backgroundColor: "black",
+          color: "white",
+        },
+      });
+    }
+  }
+  async function addToWishList(productId) {
+    const res = await addProductToWishList(productId)
+    setWishData(res.data.data)
+    if (res.data?.status == "success") {
+      toast.success(res.data.message, {
+        position: "right-bottom",
+        style: {
+          backgroundColor: "black",
+          color: "white",
+        },
+      });
+    } else {
+      toast.error(res.response.data.message, {
+        position: "right-bottom",
+        style: {
+          backgroundColor: "black",
+          color: "white",
+        },
+      });
+    }
+    
+  }
   return (
     <>
       {isLoading ? (
@@ -81,6 +129,9 @@ export default function Products() {
                   loading={btnLoading}
                   product={product}
                   loadingItem={loadingItem}
+                  addWishList={addToWishList}
+                  wishedData={wishData}
+                  removeWished={removeWishedProducts}
                 />
               );
             })}
