@@ -25,6 +25,7 @@ import WishListContextProvider, { WishListContext } from './Context/WishListCont
 import WishList from "./Component/WishList/WishList";
 import SpecificCategory from "./Component/SpecificCategory/SpecificCategory";
 import SpecificBrand from "./Component/SpecificBrand/SpecificBrand";
+import Order from "./Component/Order/Order";
 
 const query = new QueryClient();
 const router = createBrowserRouter([
@@ -141,6 +142,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoutes>
             <WishList />
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: "allOrders",
+        element: (
+          <ProtectedRoutes>
+            <Order />
           </ProtectedRoutes>
         ),
       },

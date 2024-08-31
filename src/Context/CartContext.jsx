@@ -37,11 +37,21 @@ function clearCart() {
     .then((res) => res)
     .catch((err) => err);
 }
+function createCashOrder(cartId,values) {
+  return axios.post(`https://ecommerce.routemisr.com/api/v1/orders/${cartId}`,{values},{headers})
+  .then((res) =>{ 
+    console.log(res);
+     return res})
+  .catch((err) =>{
+    console.log(err);
+    
+    return err});
+}
 export default function CartContextProvider({ children }) {
   const [cartId, setCartId] = useState(null)
   const [cartNum, setCartNum] = useState(null)
   return (
-    <CartContext.Provider value={{ addProductToCart,getCartProducts,removeCartProduct,updateCartProduct,clearCart,cartId, setCartId,cartNum, setCartNum }}>
+    <CartContext.Provider value={{ addProductToCart,getCartProducts,removeCartProduct,updateCartProduct,clearCart,cartId, setCartId,cartNum, setCartNum,createCashOrder }}>
       {children}
     </CartContext.Provider>
   );

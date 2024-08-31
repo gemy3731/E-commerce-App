@@ -2,20 +2,29 @@ import React, { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../Context/CartContext";
 import Loader from "../Loader/Loader";
 import SubLoader from "../SubLoader/SubLoader";
+import { useNavigate } from 'react-router-dom';
 
 export default function Cart() {
   const [cartInfo, setCartInfo] = useState(null);
+  const [cartId, setCartId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isRemoved, setIsRemoved] = useState(false);
-
+const navigate = useNavigate()
   const { getCartProducts, removeCartProduct, updateCartProduct,clearCart,cartNum, setCartNum } = useContext(CartContext);
   useEffect(() => {
     getProducts();
   }, []);
+  function navigateToCheckout(cartId) {
+    if (cartInfo==="Your Cart Is Empty") return
+    navigate(`/checkout/${cartId}`)
+  }
 // Display products in cart 
   async function getProducts() {
     const { data } = await getCartProducts();
     setCartInfo(data);
+    setCartId(data.cartId)
+    console.log(data.cartId);
+    
     setCartNum(data.numOfCartItems)          //update cart notification 
     console.log(data);
     
@@ -26,6 +35,7 @@ export default function Cart() {
   }
   // remove product from cart
   async function removeProducts(id) {
+    if (cartInfo==="Your Cart Is Empty") return
     setIsRemoved(true);                      //subLoader that display when user remove product in cart
     const res = await removeCartProduct(id);
     setCartInfo(res.data);                   // display products after user removed product
@@ -188,7 +198,7 @@ export default function Cart() {
             </table>
             {cartInfo==="Your Cart Is Empty"?<p className="text-center text-green-700 font-medium text-2xl my-16">Your Cart Is Empty</p>:null}
             <div className="mt-5 flex flex-wrap gap-y-3 ">
-            <button  className="border border-green-500   w-full lg:w-[70%] py-2 px-4 rounded-lg bg-green-500 hover:bg-green-600 text-white font-semibold">CheckOut</button>
+            <button disabled={cartInfo==="Your Cart Is Empty"} onClick={()=>navigateToCheckout(cartId)}  className="border border-green-500   w-full lg:w-[70%] py-2 px-4 rounded-lg bg-green-500 hover:bg-green-600 text-white font-semibold">CheckOut</button>
             <button disabled={cartInfo==="Your Cart Is Empty"} onClick={clearAllCart} className=" text-white bg-red-500  w-1/4 mx-auto py-2 px-4 rounded-lg hover:bg-red-800 font-semibold">Clear Cart</button>
 
             </div>
