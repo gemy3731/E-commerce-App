@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 
 export default function Checkout() {
   const [isLoading ,setIsLoading] = useState(false);
+  const [isOnlinePayment ,setIsOnlinePayment] = useState(false);
   const [errorMsg ,setErrorMsg] = useState("");
 
   const {createCashOrder} = useContext(CartContext)
@@ -16,14 +17,19 @@ export default function Checkout() {
   
  async function pay(values) {
   setIsLoading(true)
-  // console.log(cartId,values);
-   const {data} = await createCashOrder(cartId,values)
+  let url = `https://ecommerce.routemisr.com/api/v1/orders/${cartId}`
+  if (isOnlinePayment) {
+    url=`https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=http://localhost:5173`
+  }
+   const {data} = await createCashOrder(values,url)
    setIsLoading(false)
    console.log(data,"data");
    if (data?.status == "success") {
-    navigate("/allOrders")
-    console.log("success");
-    
+    if (isOnlinePayment) {
+      window.location.href=data.session.url
+    }else{
+      navigate("/allOrders")
+    }
    }else{
     toast.error("There is no cart", {
       position: "top-center",
@@ -66,7 +72,7 @@ export default function Checkout() {
             placeholder=" "
           />
           <label
-            forhtml="details"
+            htmlFor="details"
             className="absolute text-sm text-gray-500  duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-green-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-100 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
           >
             Details
@@ -85,7 +91,7 @@ export default function Checkout() {
             placeholder=" "
           />
           <label
-            forhtml="phone"
+            htmlFor="phone"
             className="absolute text-sm text-gray-500  duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-green-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-100 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
           >
             Phone
@@ -104,19 +110,21 @@ export default function Checkout() {
             placeholder=" "
           />
           <label
-            forhtml="city"
+            htmlFor="city"
             className="absolute text-sm text-gray-500  duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-green-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-100 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
           >
             City
           </label>
         </div>
           {formik.errors.city&&formik.touched.city&&<div className=' bg-red-700 font-medium text-white p-3 rounded-lg mb-4'><h2>{formik.errors.city}</h2> </div>}
+          <input className="me-2 accent-green-500" id="onlinePay" type="checkbox" onChange={()=>setIsOnlinePayment(!isOnlinePayment)} />
+          <label className="text-[18px]" htmlFor="onlinePay">Pay Online</label>
         <button
           disabled={isLoading}
           type="submit"
-          className="bg-green-400 hover:bg-green-500 px-4 py-3 rounded-lg text-white font-medium block ms-auto mt-4"
+          className="bg-green-500 hover:bg-green-600 px-4 py-3 rounded-lg  text-lg font-medium block ms-auto mt-4"
         >
-          {isLoading ? <i className="fa fa-spinner fa-spin"></i> : "Submit"}
+          {isLoading ? <i className="fa fa-spinner fa-spin"></i> :isOnlinePayment?"Pay Online" :"COD"}
         </button>
       </form>
     </div>

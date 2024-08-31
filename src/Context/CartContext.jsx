@@ -37,8 +37,8 @@ function clearCart() {
     .then((res) => res)
     .catch((err) => err);
 }
-function createCashOrder(cartId,values) {
-  return axios.post(`https://ecommerce.routemisr.com/api/v1/orders/${cartId}`,{values},{headers})
+function createCashOrder(values,url) {
+  return axios.post(url,{values},{headers})
   .then((res) =>{ 
     console.log(res);
      return res})
