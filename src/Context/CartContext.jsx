@@ -1,19 +1,27 @@
 import axios from "axios";
 import React, { createContext, useContext, useState } from "react";
+import { UserTokenContext } from "./UserTokenContext";
 export const CartContext = createContext();
-const headers = {
-  token: window.localStorage.getItem("token"),
-};
-// Add products to cart 
-function addProductToCart(productId) {
-  return axios.post("https://ecommerce.routemisr.com/api/v1/cart",
-      { productId },
-      { headers }
-    )
-    .then((res) => res)
-    .catch((err) => err);
-}
-// Display products in cart 
+
+
+
+export default function CartContextProvider({ children }) {
+  const [cartId, setCartId] = useState(null)
+  const [cartNum, setCartNum] = useState(null)
+  const {token} = useContext(UserTokenContext)
+  const headers = {
+    token
+  };
+  // Add products to cart
+  function addProductToCart(productId) {
+    return axios.post("https://ecommerce.routemisr.com/api/v1/cart",
+        { productId },
+        { headers }
+      )
+      .then((res) => res)
+      .catch((err) => err);
+  }
+  // Display products in cart 
 function getCartProducts() {
   return axios.get('https://ecommerce.routemisr.com/api/v1/cart',{headers})
     .then((res) => res)
@@ -37,26 +45,15 @@ function clearCart() {
 }
 function createCashOrder(values,url) {
   return axios.post(url,{values},{headers})
-  .then((res) =>{ 
-    console.log(res);
-     return res})
-  .catch((err) =>{
-    console.log(err);
-    
-    return err});
+  .then((res) =>res)
+  .catch((err) =>err);
 }
 function getUserOrders(userId) {
-  console.log(userId);
+
   return axios.get(`https://ecommerce.routemisr.com/api/v1/orders/user/${userId}`)
-  .then((res)=>{
-    console.log(res);
-    
-   return res})
+  .then((res)=>res)
   .catch((err) => err);
 }
-export default function CartContextProvider({ children }) {
-  const [cartId, setCartId] = useState(null)
-  const [cartNum, setCartNum] = useState(null)
   return (
     <CartContext.Provider value={{ addProductToCart,getCartProducts,removeCartProduct,updateCartProduct,clearCart,cartId, setCartId,cartNum, setCartNum,createCashOrder,getUserOrders }}>
       {children}

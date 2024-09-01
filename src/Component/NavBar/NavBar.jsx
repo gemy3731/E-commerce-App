@@ -9,7 +9,7 @@ export default function NavBar() {
   const {cartNum, setCartNum,getCartProducts} = useContext(CartContext);
   let x = cartNum
   useEffect(()=>{
-    cartNumber()
+    if(token) cartNumber()
   },[x])
   
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ export default function NavBar() {
   }
   async function cartNumber() {
     const res = await getCartProducts()
-    setCartNum(res.data.numOfCartItems)          //update cart notification 
+   if(token) setCartNum(res.data.numOfCartItems)          //update cart notification 
   }
   
   return (

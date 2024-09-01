@@ -3,16 +3,18 @@ import { CartContext } from "../../Context/CartContext";
 import Loader from "../Loader/Loader";
 import SubLoader from "../SubLoader/SubLoader";
 import { useNavigate } from 'react-router-dom';
+import { UserTokenContext } from "../../Context/UserTokenContext";
 
 export default function Cart() {
   const [cartInfo, setCartInfo] = useState(null);
   const [cartId, setCartId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isRemoved, setIsRemoved] = useState(false);
-const navigate = useNavigate()
+  const navigate = useNavigate()
+  const {token,setToken} = useContext(UserTokenContext);
   const { getCartProducts, removeCartProduct, updateCartProduct,clearCart,cartNum, setCartNum } = useContext(CartContext);
   useEffect(() => {
-    getProducts();
+    if(token) getProducts();
   }, []);
   function navigateToCheckout(cartId) {
     if (cartInfo==="Your Cart Is Empty") return
@@ -23,9 +25,8 @@ const navigate = useNavigate()
     const { data } = await getCartProducts();
     setCartInfo(data);
     setCartId(data.cartId)
-    console.log(data.cartId);
     
-    setCartNum(data.numOfCartItems)          //update cart notification 
+    if(token) setCartNum(data.numOfCartItems)          //update cart notification 
     console.log(data);
     
     if (data.numOfCartItems==0) {
