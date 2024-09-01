@@ -56,6 +56,9 @@ export default function NavBar() {
         <li>
           <NavLink to="brands" className="block py-2 px-3 rounded lg:p-0">Brands</NavLink>
         </li>
+        <li>
+          <NavLink to="allOrders" className="block py-2 px-3 rounded lg:p-0">Orders</NavLink>
+        </li>
       </ul> }
       </div>
     <div className=" w-full lg:w-auto" id="navbar-default">
