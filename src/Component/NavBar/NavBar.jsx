@@ -40,7 +40,7 @@ export default function NavBar() {
           <NavLink to="cart" className="  block py-2 px-3 rounded lg:p-0"><span className='me-1'>Cart</span>
           <span className='relative'>
             <i className="fa-solid fa-cart-arrow-down "></i>
-            {cartNum&&<span className=' bg-green-500 block absolute top-[-80%] left-[90%] text-sm cartN'>{cartNum}</span>}
+            {cartNum>0 &&<span className=' bg-green-500 block absolute top-[-80%] left-[90%] text-sm cartN'>{cartNum}</span>}
             </span>
             </NavLink>
         </li>
