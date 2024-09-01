@@ -24,6 +24,7 @@ export default function Login() {
     .then((res)=>{
       localStorage.setItem("token",res.data.token);
       userToken.setToken(res.data.token)
+      decodeToken()
       navigate("/home")
       setIsLoading(false);
     })
