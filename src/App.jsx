@@ -3,30 +3,20 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-// import Home from "./Component/Home/Home";
 import NotFound from "./Component/NotFound/NotFound";
 import LayOut from "./Component/LayOut/LayOut";
-// import Cart from "./Component/Cart/Cart";
-// import Products from "./Component/Products/Products";
-// import Categories from "./Component/Categories/Categories";
-// import Brands from "./Component/Brands/Brands";
 import Login from "./Component/Login/Login";
 import Register from "./Component/Register/Register";
 import UserTokenContextProvider from "./Context/UserTokenContext";
 import ProtectedRoutes from "./Component/ProtectedRoutes/ProtectedRoutes";
 import ProtectedRoutesRegister from "./Component/ProtectedRoutesRegister/ProtectedRoutesRegister";
-// import ProductDetails from "./Component/productDetails/ProductDetails";
 import CartContextProvider from "./Context/CartContext";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-// import Checkout from "./Component/Checkout/Checkout";
 import WishListContextProvider, { WishListContext } from './Context/WishListContext';
-// import WishList from "./Component/WishList/WishList";
-// import SpecificCategory from "./Component/SpecificCategory/SpecificCategory";
-// import SpecificBrand from "./Component/SpecificBrand/SpecificBrand";
-// import Order from "./Component/Order/Order";
 import ForgotPassword from "./Component/ForgotPassword/ForgotPassword";
+import { Offline, Online } from "react-detect-offline";
 
 const Home = lazy(()=>import('./Component/Home/Home'))
 const Cart = lazy(()=>import('./Component/Cart/Cart'))
@@ -212,6 +202,11 @@ function App() {
           <CartContextProvider>
             <RouterProvider router={router} />
             <ReactQueryDevtools></ReactQueryDevtools>
+            <Offline>
+              <div className="fixed left-0 bottom-0 py-3 px-6 bg-red-500 text-white font-semibold rounded-r">
+              Your Are Offline!
+              </div>
+              </Offline>
             <Toaster />
           </CartContextProvider>
           </WishListContextProvider>
