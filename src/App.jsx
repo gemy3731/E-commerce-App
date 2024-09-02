@@ -26,6 +26,7 @@ import WishList from "./Component/WishList/WishList";
 import SpecificCategory from "./Component/SpecificCategory/SpecificCategory";
 import SpecificBrand from "./Component/SpecificBrand/SpecificBrand";
 import Order from "./Component/Order/Order";
+import ForgotPassword from "./Component/ForgotPassword/ForgotPassword";
 
 const query = new QueryClient();
 const router = createBrowserRouter([
@@ -54,6 +55,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoutesRegister>
             <Login />
+          </ProtectedRoutesRegister>
+        ),
+      },
+      {
+        path: "forgotpassword",
+        element: (
+          <ProtectedRoutesRegister>
+            <ForgotPassword />
           </ProtectedRoutesRegister>
         ),
       },
