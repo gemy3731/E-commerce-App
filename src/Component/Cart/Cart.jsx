@@ -4,6 +4,7 @@ import Loader from "../Loader/Loader";
 import SubLoader from "../SubLoader/SubLoader";
 import { useNavigate } from 'react-router-dom';
 import { UserTokenContext } from "../../Context/UserTokenContext";
+import { Helmet } from "react-helmet";
 
 export default function Cart() {
   const [cartInfo, setCartInfo] = useState(null);
@@ -64,6 +65,9 @@ export default function Cart() {
         <Loader />
       ) : (
         <div>
+          <Helmet>
+                <title>Cart</title>
+            </Helmet>
           {/*  loader from removing , update item or clear*/}
           {isRemoved ? (
             <div className="fixed z-50 right-0 left-0 bottom-0 top-0">

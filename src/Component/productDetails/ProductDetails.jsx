@@ -7,6 +7,7 @@ import Slider from "react-slick";
 import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
 import { WishListContext } from "../../Context/WishListContext";
+import { Helmet } from "react-helmet";
 
 export default function ProductDetails() {
   var settings = {
@@ -60,9 +61,12 @@ export default function ProductDetails() {
   const [loadingItem, setLoadingItem] = useState({});
   const [wishData, setWishData] = useState([]);
   const { id, categoryId } = useParams();
-  const { addProductToCart,setCartNum } = useContext(CartContext);
-  const { addProductToWishList,removeProductfromWishList,getWishListProducts } = useContext(WishListContext);
-
+  const { addProductToCart, setCartNum } = useContext(CartContext);
+  const {
+    addProductToWishList,
+    removeProductfromWishList,
+    getWishListProducts,
+  } = useContext(WishListContext);
 
   useEffect(() => {
     getProductDetails();
@@ -75,7 +79,8 @@ export default function ProductDetails() {
   }, []);
 
   function getProductDetails() {
-    axios.get(`https://ecommerce.routemisr.com/api/v1/products/${id}`)
+    axios
+      .get(`https://ecommerce.routemisr.com/api/v1/products/${id}`)
       .then(({ data }) => {
         setProductDetails(data.data);
         setIsLoading(false);
@@ -84,7 +89,6 @@ export default function ProductDetails() {
         }
       })
       .catch((err) => console.log(err));
-      
   }
   function getRelatedProducts() {
     axios
@@ -101,11 +105,11 @@ export default function ProductDetails() {
     setRelatedProducts(res);
   }
   async function addToCart(id) {
-    setBtnLoading(true)
+    setBtnLoading(true);
     setLoadingItem((prev) => ({ ...prev, [id]: true }));
     const res = await addProductToCart(id);
-    setCartNum(res.data.numOfCartItems)          //update cart notification 
-    setBtnLoading(false)
+    setCartNum(res.data.numOfCartItems); //update cart notification
+    setBtnLoading(false);
     setLoadingItem((prev) => ({ ...prev, [id]: false }));
     if (res.data?.status == "success") {
       toast.success(res.data.message, {
@@ -127,7 +131,7 @@ export default function ProductDetails() {
   }
   async function removeWishedProducts(id) {
     const res = await removeProductfromWishList(id);
-    setWishData(res.data.data)
+    setWishData(res.data.data);
     if (res.data?.status == "success") {
       toast.success(res.data.message, {
         position: "right-bottom",
@@ -148,12 +152,12 @@ export default function ProductDetails() {
   }
   async function getWishedProducts() {
     const res = await getWishListProducts();
-    setWishData(res.data.data)
+    setWishData(res.data.data);
   }
 
   async function addToWishList(productId) {
-    const res = await addProductToWishList(productId)
-    setWishData(res.data.data)
+    const res = await addProductToWishList(productId);
+    setWishData(res.data.data);
     if (res.data?.status == "success") {
       toast.success(res.data.message, {
         position: "right-bottom",
@@ -171,11 +175,13 @@ export default function ProductDetails() {
         },
       });
     }
-    
   }
 
   return (
     <>
+      <Helmet>
+        <title>Product Details</title>
+      </Helmet>
       {isLoading ? (
         <Loader />
       ) : (
@@ -205,11 +211,36 @@ export default function ProductDetails() {
               </span>
             </div>
             <div className="flex justify-between items-center mt-2 p-2">
-              <button onClick={() => {addToCart(ProductDetails.id);}} className=" bg-green-500 w-[80%] rounded-lg py-2 text-white font-bold text-lg">
-               {btnLoading? <i className="fa fa-spinner fa-spin"></i>: <span>+ Add To Cart </span>}
-                </button>
-              <i onClick={()=>wishData.some((data)=>data.id==ProductDetails.id||data==ProductDetails.id)?removeWishedProducts(ProductDetails.id):addToWishList(ProductDetails.id)} 
-              className={`fa-solid fa-heart text-2xl cursor-pointer ${wishData.some((data)=>data.id==ProductDetails.id||data==ProductDetails.id)?"text-red-700":"text-black"}`}></i>
+              <button
+                onClick={() => {
+                  addToCart(ProductDetails.id);
+                }}
+                className=" bg-green-500 w-[80%] rounded-lg py-2 text-white font-bold text-lg"
+              >
+                {btnLoading ? (
+                  <i className="fa fa-spinner fa-spin"></i>
+                ) : (
+                  <span>+ Add To Cart </span>
+                )}
+              </button>
+              <i
+                onClick={() =>
+                  wishData.some(
+                    (data) =>
+                      data.id == ProductDetails.id || data == ProductDetails.id
+                  )
+                    ? removeWishedProducts(ProductDetails.id)
+                    : addToWishList(ProductDetails.id)
+                }
+                className={`fa-solid fa-heart text-2xl cursor-pointer ${
+                  wishData.some(
+                    (data) =>
+                      data.id == ProductDetails.id || data == ProductDetails.id
+                  )
+                    ? "text-red-700"
+                    : "text-black"
+                }`}
+              ></i>
             </div>
           </div>
         </div>
@@ -224,14 +255,15 @@ export default function ProductDetails() {
               {relatedProducts?.map((product) => {
                 return (
                   <div key={product.id} className="p-5">
-                    <ProductItem 
-                    loading={btnLoading} 
-                    loadingItem={loadingItem} 
-                    addCart={addToCart} 
-                    addWishList={addToWishList} product={product}
-                    wishedData={wishData}
-                    removeWished={removeWishedProducts}
-                     />
+                    <ProductItem
+                      loading={btnLoading}
+                      loadingItem={loadingItem}
+                      addCart={addToCart}
+                      addWishList={addToWishList}
+                      product={product}
+                      wishedData={wishData}
+                      removeWished={removeWishedProducts}
+                    />
                   </div>
                 );
               })}

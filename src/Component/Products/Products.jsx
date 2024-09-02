@@ -7,6 +7,7 @@ import ProductItem from "../ProductItem/ProductItem";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { WishListContext } from "../../Context/WishListContext";
+import { Helmet } from "react-helmet";
 
 export default function Products() {
   const [btnLoading, setBtnLoading] = useState(false);
@@ -120,6 +121,9 @@ export default function Products() {
         <Loader />
       ) : (
         <div className="container mx-auto">
+          <Helmet>
+                <title>Products</title>
+            </Helmet>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {productData.map((product) => {
               return (

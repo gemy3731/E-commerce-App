@@ -4,6 +4,7 @@ import { WishListContext } from "../../Context/WishListContext";
 import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
 import SubLoader from "../SubLoader/SubLoader";
+import { Helmet } from "react-helmet";
 
 export default function WishList() {
   const [isLoading, setIsLoading] = useState(true);
@@ -59,8 +60,12 @@ export default function WishList() {
         <Loader />
       ) : (
         <div>
+          <Helmet>
+                <title>Wish List</title>
+            </Helmet>
           {/* loader from removing , update item or clear*/}
           {isRemoved ? (
+            
             <div className="fixed z-50 right-0 left-0 bottom-0 top-0">
               <SubLoader />
             </div>
