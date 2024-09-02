@@ -1,32 +1,44 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./Component/Home/Home";
+// import Home from "./Component/Home/Home";
 import NotFound from "./Component/NotFound/NotFound";
 import LayOut from "./Component/LayOut/LayOut";
-import Cart from "./Component/Cart/Cart";
-import Products from "./Component/Products/Products";
-import Categories from "./Component/Categories/Categories";
-import Brands from "./Component/Brands/Brands";
+// import Cart from "./Component/Cart/Cart";
+// import Products from "./Component/Products/Products";
+// import Categories from "./Component/Categories/Categories";
+// import Brands from "./Component/Brands/Brands";
 import Login from "./Component/Login/Login";
 import Register from "./Component/Register/Register";
 import UserTokenContextProvider from "./Context/UserTokenContext";
 import ProtectedRoutes from "./Component/ProtectedRoutes/ProtectedRoutes";
 import ProtectedRoutesRegister from "./Component/ProtectedRoutesRegister/ProtectedRoutesRegister";
-import ProductDetails from "./Component/productDetails/ProductDetails";
+// import ProductDetails from "./Component/productDetails/ProductDetails";
 import CartContextProvider from "./Context/CartContext";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import Checkout from "./Component/Checkout/Checkout";
+// import Checkout from "./Component/Checkout/Checkout";
 import WishListContextProvider, { WishListContext } from './Context/WishListContext';
-import WishList from "./Component/WishList/WishList";
-import SpecificCategory from "./Component/SpecificCategory/SpecificCategory";
-import SpecificBrand from "./Component/SpecificBrand/SpecificBrand";
-import Order from "./Component/Order/Order";
+// import WishList from "./Component/WishList/WishList";
+// import SpecificCategory from "./Component/SpecificCategory/SpecificCategory";
+// import SpecificBrand from "./Component/SpecificBrand/SpecificBrand";
+// import Order from "./Component/Order/Order";
 import ForgotPassword from "./Component/ForgotPassword/ForgotPassword";
+
+const Home = lazy(()=>import('./Component/Home/Home'))
+const Cart = lazy(()=>import('./Component/Cart/Cart'))
+const Products = lazy(()=>import('./Component/Products/Products'))
+const Categories = lazy(()=>import('./Component/Categories/Categories'))
+const Brands = lazy(()=>import('./Component/Brands/Brands'))
+const ProductDetails = lazy(()=>import('./Component/productDetails/ProductDetails'))
+const Checkout = lazy(()=>import('./Component/Checkout/Checkout'))
+const WishList = lazy(()=>import('./Component/WishList/WishList'))
+const SpecificCategory = lazy(()=>import('./Component/SpecificCategory/SpecificCategory'))
+const SpecificBrand = lazy(()=>import('./Component/SpecificBrand/SpecificBrand'))
+const Order = lazy(()=>import('./Component/Order/Order'))
 
 const query = new QueryClient();
 const router = createBrowserRouter([
@@ -70,7 +82,9 @@ const router = createBrowserRouter([
         path: "home",
         element: (
           <ProtectedRoutes>
+            <Suspense>
             <Home />
+            </Suspense>
           </ProtectedRoutes>
         ),
       },
@@ -78,7 +92,9 @@ const router = createBrowserRouter([
         path: "cart",
         element: (
           <ProtectedRoutes>
+            <Suspense>
             <Cart />
+            </Suspense>
           </ProtectedRoutes>
         ),
       },
@@ -86,7 +102,9 @@ const router = createBrowserRouter([
         path: "products",
         element: (
           <ProtectedRoutes>
+            <Suspense>
             <Products />
+            </Suspense>
           </ProtectedRoutes>
         ),
       },
@@ -94,7 +112,9 @@ const router = createBrowserRouter([
         path: "categories",
         element: (
           <ProtectedRoutes>
+            <Suspense>
             <Categories />
+            </Suspense>
           </ProtectedRoutes>
         ),
       },
@@ -102,7 +122,9 @@ const router = createBrowserRouter([
         path: "specificCategory/:categoryId",
         element: (
           <ProtectedRoutes>
+            <Suspense>
             <SpecificCategory />
+            </Suspense>
           </ProtectedRoutes>
         ),
       },
@@ -110,7 +132,9 @@ const router = createBrowserRouter([
         path: "brands",
         element: (
           <ProtectedRoutes>
+            <Suspense>
             <Brands />
+            </Suspense>
           </ProtectedRoutes>
         ),
       },
@@ -118,7 +142,9 @@ const router = createBrowserRouter([
         path: "specificBrand/:brandId",
         element: (
           <ProtectedRoutes>
+            <Suspense>
             <SpecificBrand />
+            </Suspense>
           </ProtectedRoutes>
         ),
       },
@@ -126,7 +152,9 @@ const router = createBrowserRouter([
         path: "productdetails/:id/:categoryId",
         element: (
           <ProtectedRoutes>
+            <Suspense>
             <ProductDetails />
+            </Suspense>
           </ProtectedRoutes>
         ),
       },
@@ -134,7 +162,9 @@ const router = createBrowserRouter([
         path: "productdetails/:id",
         element: (
           <ProtectedRoutes>
+            <Suspense>
             <ProductDetails />
+            </Suspense>
           </ProtectedRoutes>
         ),
       },
@@ -142,7 +172,9 @@ const router = createBrowserRouter([
         path: "checkout/:cartId",
         element: (
           <ProtectedRoutes>
+            <Suspense>
             <Checkout />
+            </Suspense>
           </ProtectedRoutes>
         ),
       },
@@ -150,7 +182,9 @@ const router = createBrowserRouter([
         path: "wishList",
         element: (
           <ProtectedRoutes>
+            <Suspense>
             <WishList />
+            </Suspense>
           </ProtectedRoutes>
         ),
       },
@@ -158,7 +192,9 @@ const router = createBrowserRouter([
         path: "allOrders",
         element: (
           <ProtectedRoutes>
+            <Suspense>
             <Order />
+            </Suspense>
           </ProtectedRoutes>
         ),
       },
