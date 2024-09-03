@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from "react";
+import { lazy, Suspense, useContext, useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -7,28 +7,36 @@ import NotFound from "./Component/NotFound/NotFound";
 import LayOut from "./Component/LayOut/LayOut";
 import Login from "./Component/Login/Login";
 import Register from "./Component/Register/Register";
-import UserTokenContextProvider from "./Context/UserTokenContext";
 import ProtectedRoutes from "./Component/ProtectedRoutes/ProtectedRoutes";
 import ProtectedRoutesRegister from "./Component/ProtectedRoutesRegister/ProtectedRoutesRegister";
-import CartContextProvider from "./Context/CartContext";
+import CartContextProvider, { CartContext } from "./Context/CartContext";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import WishListContextProvider, { WishListContext } from './Context/WishListContext';
+import WishListContextProvider, {
+  WishListContext,
+} from "./Context/WishListContext";
 import ForgotPassword from "./Component/ForgotPassword/ForgotPassword";
 import { Offline, Online } from "react-detect-offline";
+import { UserTokenContext } from "./Context/UserTokenContext";
 
-const Home = lazy(()=>import('./Component/Home/Home'))
-const Cart = lazy(()=>import('./Component/Cart/Cart'))
-const Products = lazy(()=>import('./Component/Products/Products'))
-const Categories = lazy(()=>import('./Component/Categories/Categories'))
-const Brands = lazy(()=>import('./Component/Brands/Brands'))
-const ProductDetails = lazy(()=>import('./Component/productDetails/ProductDetails'))
-const Checkout = lazy(()=>import('./Component/Checkout/Checkout'))
-const WishList = lazy(()=>import('./Component/WishList/WishList'))
-const SpecificCategory = lazy(()=>import('./Component/SpecificCategory/SpecificCategory'))
-const SpecificBrand = lazy(()=>import('./Component/SpecificBrand/SpecificBrand'))
-const Order = lazy(()=>import('./Component/Order/Order'))
+const Home = lazy(() => import("./Component/Home/Home"));
+const Cart = lazy(() => import("./Component/Cart/Cart"));
+const Products = lazy(() => import("./Component/Products/Products"));
+const Categories = lazy(() => import("./Component/Categories/Categories"));
+const Brands = lazy(() => import("./Component/Brands/Brands"));
+const ProductDetails = lazy(() =>
+  import("./Component/productDetails/ProductDetails")
+);
+const Checkout = lazy(() => import("./Component/Checkout/Checkout"));
+const WishList = lazy(() => import("./Component/WishList/WishList"));
+const SpecificCategory = lazy(() =>
+  import("./Component/SpecificCategory/SpecificCategory")
+);
+const SpecificBrand = lazy(() =>
+  import("./Component/SpecificBrand/SpecificBrand")
+);
+const Order = lazy(() => import("./Component/Order/Order"));
 
 const query = new QueryClient();
 const router = createBrowserRouter([
@@ -73,7 +81,7 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoutes>
             <Suspense>
-            <Home />
+              <Home />
             </Suspense>
           </ProtectedRoutes>
         ),
@@ -83,7 +91,7 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoutes>
             <Suspense>
-            <Cart />
+              <Cart />
             </Suspense>
           </ProtectedRoutes>
         ),
@@ -93,7 +101,7 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoutes>
             <Suspense>
-            <Products />
+              <Products />
             </Suspense>
           </ProtectedRoutes>
         ),
@@ -103,7 +111,7 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoutes>
             <Suspense>
-            <Categories />
+              <Categories />
             </Suspense>
           </ProtectedRoutes>
         ),
@@ -113,7 +121,7 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoutes>
             <Suspense>
-            <SpecificCategory />
+              <SpecificCategory />
             </Suspense>
           </ProtectedRoutes>
         ),
@@ -123,7 +131,7 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoutes>
             <Suspense>
-            <Brands />
+              <Brands />
             </Suspense>
           </ProtectedRoutes>
         ),
@@ -133,7 +141,7 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoutes>
             <Suspense>
-            <SpecificBrand />
+              <SpecificBrand />
             </Suspense>
           </ProtectedRoutes>
         ),
@@ -143,7 +151,7 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoutes>
             <Suspense>
-            <ProductDetails />
+              <ProductDetails />
             </Suspense>
           </ProtectedRoutes>
         ),
@@ -153,7 +161,7 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoutes>
             <Suspense>
-            <ProductDetails />
+              <ProductDetails />
             </Suspense>
           </ProtectedRoutes>
         ),
@@ -163,7 +171,7 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoutes>
             <Suspense>
-            <Checkout />
+              <Checkout />
             </Suspense>
           </ProtectedRoutes>
         ),
@@ -173,7 +181,7 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoutes>
             <Suspense>
-            <WishList />
+              <WishList />
             </Suspense>
           </ProtectedRoutes>
         ),
@@ -183,7 +191,7 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoutes>
             <Suspense>
-            <Order />
+              <Order />
             </Suspense>
           </ProtectedRoutes>
         ),
@@ -194,24 +202,35 @@ const router = createBrowserRouter([
   },
 ]);
 function App() {
+  const { getCartProducts, setCartNum } = useContext(CartContext);
+  const {token,setToken} = useContext(UserTokenContext);
+  useEffect(() => {
+    if(token)  getProducts()
+  }, [token])
+  
+  
+  async function getProducts() {
+    const {data} = await getCartProducts();
+    setCartNum(data.numOfCartItems)          //update cart notification 
+  }
   return (
     <>
-      <QueryClientProvider client={query}>
-        <UserTokenContextProvider>
+      
+        <QueryClientProvider client={query}>
           <WishListContextProvider>
-          <CartContextProvider>
-            <RouterProvider router={router} />
-            <ReactQueryDevtools></ReactQueryDevtools>
-            <Offline>
-              <div className="fixed left-0 bottom-0 py-3 px-6 bg-red-500 text-white font-semibold rounded-r">
-              Your Are Offline!
-              </div>
+            
+              <RouterProvider router={router} />
+              <ReactQueryDevtools></ReactQueryDevtools>
+              <Offline>
+                <div className="fixed left-0 bottom-0 py-3 px-6 bg-red-500 text-white font-semibold rounded-r">
+                  Your Are Offline!
+                </div>
               </Offline>
-            <Toaster />
-          </CartContextProvider>
+              <Toaster />
+            
           </WishListContextProvider>
-        </UserTokenContextProvider>
-      </QueryClientProvider>
+        </QueryClientProvider>
+      
     </>
   );
 }

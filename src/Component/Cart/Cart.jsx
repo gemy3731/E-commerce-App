@@ -16,7 +16,7 @@ export default function Cart() {
   const { getCartProducts, removeCartProduct, updateCartProduct,clearCart,cartNum, setCartNum } = useContext(CartContext);
   useEffect(() => {
     if(token) getProducts();
-  }, []);
+  }, [token]);
   function navigateToCheckout(cartId) {
     if (cartInfo==="Your Cart Is Empty") return
     navigate(`/checkout/${cartId}`)
@@ -27,7 +27,7 @@ export default function Cart() {
     setCartInfo(data);
     setCartId(data.cartId)
     
-    if(token) setCartNum(data.numOfCartItems)          //update cart notification 
+     setCartNum(data.numOfCartItems)          //update cart notification 
     console.log(data);
     
     if (data.numOfCartItems==0) {
