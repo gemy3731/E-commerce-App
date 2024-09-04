@@ -12,7 +12,6 @@ export default function Categories() {
   const { data, isLoading } = useQuery({
     queryKey: ["allCategories"],
     queryFn: getAllCategories,
-    staleTime: 1000 * 60 * 10,
     select: (data) => data?.data?.data,
   });
   console.log(data);

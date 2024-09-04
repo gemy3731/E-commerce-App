@@ -44,14 +44,14 @@ const router = createBrowserRouter([
     path: "",
     element: <LayOut />,
     children: [
-      {
-        index: true,
-        element: (
-          <ProtectedRoutesRegister>
-            <Register />
-          </ProtectedRoutesRegister>
-        ),
-      },
+      // {
+      //   index: true,
+      //   element: (
+      //     <ProtectedRoutesRegister>
+      //       <Register />
+      //     </ProtectedRoutesRegister>
+      //   ),
+      // },
       {
         path: "register",
         element: (
@@ -77,13 +77,19 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "home",
+        index: true,
         element: (
-          <ProtectedRoutes>
             <Suspense>
               <Home />
             </Suspense>
-          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: "home",
+        element: (
+            <Suspense>
+              <Home />
+            </Suspense>
         ),
       },
       {

@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { UserTokenContext } from "../../Context/UserTokenContext";
 
 export default function ProductItem({ product, addCart, loading,loadingItem,addWishList,wishedData,removeWished }) {
+ const {token}= useContext(UserTokenContext)
   return (
     <div className="product rounded-lg overflow-hidden">
-      <Link to={`/productdetails/${product.id}/${product.category._id}`}>
+      <Link to={token?`/productdetails/${product.id}/${product.category._id}`:"/login"}>
         <img src={product.imageCover} className="w-full" alt={product.title} />
         <div className="p-2 ">
           <h2 className="text-[#4fa74f] text-lg ">{product.category.name}</h2>
@@ -20,6 +22,7 @@ export default function ProductItem({ product, addCart, loading,loadingItem,addW
           </div>
         </div>
       </Link>
+      {token&&(
       <div className="flex justify-between items-center mt-2 p-2">
         <button
           onClick={() => {
@@ -37,6 +40,7 @@ export default function ProductItem({ product, addCart, loading,loadingItem,addW
           wishedData.some((data)=>data.id==product.id||data==product.id)?removeWished(product.id):addWishList(product.id);}}
            className={`fa-solid fa-heart text-2xl cursor-pointer ${wishedData.some((data)=>data.id==product.id||data==product.id)?"text-red-700":"text-black"}`}></i>
       </div>
+      )}
     </div>
   );
 }

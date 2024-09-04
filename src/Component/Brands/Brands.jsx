@@ -12,7 +12,6 @@ export default function Brands() {
   const { data, isLoading } = useQuery({
     queryKey: ["allBrands"],
     queryFn: getAllBrand,
-    staleTime: 1000 * 60 * 10,
     select: (data) => data.data.data,
   });
   return (
