@@ -2,6 +2,7 @@ import React from 'react'
 import NavBar from './../NavBar/NavBar';
 import Footer from '../Footer/Footer';
 import { Outlet } from 'react-router-dom';
+import ScrollUp from './../ScrollUp/ScrollUp';
 
 export default function LayOut() {
   return (
@@ -13,6 +14,7 @@ export default function LayOut() {
     <div className='mt-14 footerShadow'>
     <Footer/>
     </div>
+    <ScrollUp/>
     </>
   )
 }
