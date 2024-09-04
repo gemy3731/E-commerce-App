@@ -41,6 +41,7 @@ export default function Order() {
             orders?.map((order) => (
               <Accordion.Panel key={order.id}>
                 <Accordion.Title className=" bg-green-500 hover:bg-green-600 text-white text-lg">
+                  <div className="grid xl:grid-cols-4 md:grid-cols-2 grid-cols-1 items-center">
                   <span className="me-20">
                     Time Of Order :{" "}
                     {order.createdAt.split("").splice(0, 10).join("")}
@@ -55,6 +56,8 @@ export default function Order() {
                   <span className="me-20">
                     Total Order Price : {order.totalOrderPrice} EGP
                   </span>
+                  </div>
+                  
                 </Accordion.Title>
                 <Accordion.Content>
                   <table className="w-full text-sm text-center rtl:text-right text-gray-500 boder  ">
