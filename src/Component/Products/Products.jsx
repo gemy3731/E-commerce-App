@@ -14,6 +14,7 @@ export default function Products() {
   const [loadingItem, setLoadingItem] = useState({});
   const [count, setCount] = useState(1)
   const [productData, setProductData] = useState([])
+  const [filteredData, setFilteredData] = useState([])
   const [pageNum, setPageNum] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
   const [wishData, setWishData] = useState([]);
@@ -27,22 +28,25 @@ export default function Products() {
     getWishedProducts()
   },[])
   function getAllProducts() {
+    console.log("hello");
+    setIsLoading(true)
     return axios.get(`https://ecommerce.routemisr.com/api/v1/products?page=${count}`).then(({data})=>{
       setProductData(data.data)
+      setFilteredData(data.data)
       setPageNum(data.metadata)
       setIsLoading(false)
     })
   }
-  // const { data, isLoading, isError } = useQuery({
-  //   queryKey: ["recentData"],
-  //   queryFn: getAllProducts,
-  //   // staleTime:10*60*1000,
-  //   select: (data) => data.data,
-  // });
-
-  // console.log(count);
-  
-
+  function searchByproductName({target}) {
+    console.log(target.value.toLowerCase());
+    const searchItem = target.value.toLowerCase();
+    if (searchItem==="") {
+      setFilteredData(productData);
+    }else{
+      const filtered = productData.filter((product)=>product.title.toLowerCase().includes(searchItem))
+      setFilteredData(filtered)
+    }
+  }
   async function addToCart(id) {
     setBtnLoading(true);
     setLoadingItem((prev) => ({ ...prev, [id]: true }));
@@ -115,6 +119,8 @@ export default function Products() {
     }
     
   }
+  console.log("ana hna");
+  
   return (
     <>
       {isLoading ? (
@@ -124,8 +130,24 @@ export default function Products() {
           <Helmet>
                 <title>Products</title>
             </Helmet>
+            <div className="relative mb-10 ">
+          <input
+            id="search"
+            type="search"
+            placeholder=" "
+            onInput={searchByproductName}
+            className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-green-600 peer"
+          />
+          <label
+            htmlFor="search"
+            className="absolute text-sm text-gray-500  duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-green-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-100 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+          >
+            Search
+          </label>
+        </div>
+        {console.log(filteredData)}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {productData.map((product) => {
+            {filteredData.map((product) => {
               return (
                 <ProductItem
                   key={product.id}
