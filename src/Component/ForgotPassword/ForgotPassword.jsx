@@ -5,19 +5,9 @@ import { Link } from "react-router-dom";
 import * as yup from "yup";
 export default function ForgotPassword() {
   function sendLink() {
-    console.log(formik.values);
-    
    const x = axios.post("https://ecommerce.routemisr.com/api/v1/auth/forgotPasswords",formik.values)
-   .then((res)=>{
-    console.log("res==>",res);
-    return res
-   })
-   .catch((err)=>{
-    console.log("err==>",err);
-    return err
-   })
-   console.log("respose=====>",x);
-   
+   .then((res)=> res )
+   .catch((err)=> err)
   }
   const formik = useFormik({
     initialValues: {

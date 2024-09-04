@@ -49,10 +49,8 @@ export default function RecentCategories() {
           .get("https://ecommerce.routemisr.com/api/v1/categories")
           .then(({ data }) => {
             setCategories(data.data);
-            console.log(data);
-            
           })
-          .catch((err) => console.log(err));
+          .catch((err) => err);
       }
   return (
     <div>

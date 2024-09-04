@@ -88,7 +88,7 @@ export default function ProductDetails() {
           filterRelatedProducts(relatedProducts);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => err);
   }
   function getRelatedProducts() {
     axios
@@ -96,7 +96,7 @@ export default function ProductDetails() {
       .then(({ data }) => {
         filterRelatedProducts(data.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => err);
   }
   function filterRelatedProducts(data) {
     let res = data.filter(

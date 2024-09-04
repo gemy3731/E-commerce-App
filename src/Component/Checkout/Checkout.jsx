@@ -23,7 +23,6 @@ export default function Checkout() {
     }
     const { data } = await createCashOrder(values, url);
     setIsLoading(false);
-    console.log(data, "data");
     if (data?.status == "success") {
       if (isOnlinePayment) {
         window.location.href = data.session.url;

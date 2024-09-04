@@ -26,10 +26,7 @@ export default function Cart() {
     const { data } = await getCartProducts();
     setCartInfo(data);
     setCartId(data.cartId)
-    
      setCartNum(data.numOfCartItems)          //update cart notification 
-    console.log(data);
-    
     if (data.numOfCartItems==0) {
       setCartInfo("Your Cart Is Empty")
     }

@@ -14,7 +14,7 @@ export default function Categories() {
     queryFn: getAllCategories,
     select: (data) => data?.data?.data,
   });
-  console.log(data);
+
   return (
     <>
       {isLoading ? (

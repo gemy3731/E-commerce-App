@@ -34,7 +34,6 @@ useEffect(()=>{
     setBtnLoading(true);
     setLoadingItem((prev) => ({ ...prev, [id]: true }));
       let res = await addProductToCart(id);
-      console.log(res);
       setCartNum(res.data.numOfCartItems)          //update cart notification 
       setBtnLoading(false);
       setLoadingItem((prev) => ({ ...prev, [id]: false }));
@@ -57,7 +56,6 @@ useEffect(()=>{
       }
   }
   async function getWishedProducts() {
-    console.log(token);
     const res = await getWishListProducts();
     if(token) setWishData(res.data.data)
   }

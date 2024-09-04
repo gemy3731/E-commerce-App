@@ -28,7 +28,6 @@ export default function Products() {
     getWishedProducts()
   },[])
   function getAllProducts() {
-    console.log("hello");
     setIsLoading(true)
     return axios.get(`https://ecommerce.routemisr.com/api/v1/products?page=${count}`).then(({data})=>{
       setProductData(data.data)
@@ -38,7 +37,6 @@ export default function Products() {
     })
   }
   function searchByproductName({target}) {
-    console.log(target.value.toLowerCase());
     const searchItem = target.value.toLowerCase();
     if (searchItem==="") {
       setFilteredData(productData);
@@ -119,8 +117,6 @@ export default function Products() {
     }
     
   }
-  console.log("ana hna");
-  
   return (
     <>
       {isLoading ? (
@@ -145,7 +141,6 @@ export default function Products() {
             Search
           </label>
         </div>
-        {console.log(filteredData)}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {filteredData.map((product) => {
               return (
