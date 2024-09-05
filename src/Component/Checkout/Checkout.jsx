@@ -19,7 +19,7 @@ export default function Checkout() {
     setIsLoading(true);
     let url = `https://ecommerce.routemisr.com/api/v1/orders/${cartId}`;
     if (isOnlinePayment) {
-      url = `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=http://localhost:5173`;
+      url = `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=https://e-commerce-app-two-delta.vercel.app`;
     }
     const { data } = await createCashOrder(values, url);
     setIsLoading(false);
