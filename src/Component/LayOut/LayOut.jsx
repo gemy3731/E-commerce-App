@@ -8,7 +8,7 @@ export default function LayOut() {
   return (
     <>
     <NavBar/>
-    <div className='container mx-auto min-h-[95vh] pt-6 lg:pt-24 px-10 lg:px-0 md:px-5'>
+    <div className='container mx-auto min-h-[95vh] lg:max-w-[1080px] pt-6 lg:pt-24 px-4'>
     <Outlet />
     </div>
     <div className='mt-14 footerShadow'>
