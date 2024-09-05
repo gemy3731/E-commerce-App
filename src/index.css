@@ -32,6 +32,7 @@ a , a:hover{
 }
 .product{
     transition: all 0.3s;
+    border: solid 1px transparent
 }
 .product:hover
 {

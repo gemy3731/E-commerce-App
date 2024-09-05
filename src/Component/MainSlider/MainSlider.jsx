@@ -17,7 +17,7 @@ export default function MainSlider() {
       <div className="slider-container ">
         <div className="flex flex-wrap">
           <div className="w-3/4 pe-1">
-            <Slider asNavFor={nav2} ref={(slider) => (sliderRef1 = slider)}>
+            <Slider arrows={false} asNavFor={nav2} ref={(slider) => (sliderRef1 = slider)}>
               <div>
                 <img
                   src={sliderimg1}
