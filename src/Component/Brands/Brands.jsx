@@ -19,11 +19,12 @@ export default function Brands() {
       {isLoading ? (
         <Loader />
       ) : (
+      <>
+          <h2 className="text-5xl font-bold text-black text-center mb-16">Brands</h2>
         <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-4 gap-4 my-6">
           <Helmet>
             <title>Brands</title>
           </Helmet>
-          <h2 className="text-5xl font-bold text-black text-center mb-16">Brands</h2>
           {data.map((brand) => (
             <div
               key={brand._id}
@@ -39,6 +40,7 @@ export default function Brands() {
             </div>
           ))}
         </div>
+        </>
       )}
     </>
   );
