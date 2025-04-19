@@ -23,6 +23,7 @@ export default function Brands() {
           <Helmet>
             <title>Brands</title>
           </Helmet>
+          <h2 className="text-5xl font-bold text-black text-center mb-16">Brands</h2>
           {data.map((brand) => (
             <div
               key={brand._id}
