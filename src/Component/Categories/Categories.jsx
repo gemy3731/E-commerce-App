@@ -20,11 +20,12 @@ export default function Categories() {
       {isLoading ? (
         <Loader />
       ) : (
+      <>
+          <h2 className="text-5xl font-bold text-black text-center mb-16">Categories</h2>
         <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-4 gap-4 my-6">
           <Helmet>
             <title>Categories</title>
           </Helmet>
-          <h2 className="text-5xl font-bold text-black text-center mb-16">Categories</h2>
           {data.map((category) => (
             <div
               key={category._id}
@@ -43,6 +44,7 @@ export default function Categories() {
             </div>
           ))}
         </div>
+        </>
       )}
     </>
   );
