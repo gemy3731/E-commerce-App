@@ -29,6 +29,8 @@ export default function Order() {
       {isLoading ? (
         <Loader />
       ) : (
+      <>
+        <h2 className="text-5xl font-bold text-black text-center mb-16">Orders</h2>
         <Accordion>
           <Helmet>
             <title>Orders</title>
@@ -116,6 +118,7 @@ export default function Order() {
             ))
           )}
         </Accordion>
+        </>
       )}
     </>
   );
