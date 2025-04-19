@@ -24,6 +24,7 @@ export default function Categories() {
           <Helmet>
             <title>Categories</title>
           </Helmet>
+          <h2 className="text-5xl font-bold text-black text-center mb-16">Categories</h2>
           {data.map((category) => (
             <div
               key={category._id}
